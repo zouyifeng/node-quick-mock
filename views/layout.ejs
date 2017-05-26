@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>前端接口可视化创建工具</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="/stylesheets/parse.css" rel='stylesheet' >
+    <script type="text/javascript" src="/lib/jquery.js"></script>
+    <script>
+      //搜索
+      function submitSearch(){
+        var keyword =document.getElementById("search").value.replace(/\s/g,"");
+        if(keyword){
+          location.href='/search/'+keyword;
+        }else {
+          alert("输入要查找的内容")
+        }
+      }
+      function keyForm(event){
+        event.keyCode == 13 && submitSearch()
+      }
+    </script>
+  </head>
+  <body>
+  	<div id="header">
+  		<div class="header-name">
+  			<a href="/" style="color:#fff"><h1>前端接口可视化创建工具</h1></a>
+        <div class="search-tab">
+          <a href="/create"  class="create-btn act">
+            创建新接口
+          </a>
+          <span class="search-btn" onclick="submitSearch()">
+            本地接口搜索
+          </span>
+          <input class="search" id="search" placeholder="输入接口中文名称或英文url" onkeyup="keyForm.call(this,event)">
+
+        </div>
+  		</div>
+  	</div>
+    <div class="container">
+       <%- body %>
+    </div>
+    <div  id="header" class="bottom header-name">
+      <a href="https://segmentfault.com/a/1190000007387454"  class="guide morelink act" target="_blank">
+        使用指南
+      </a>
+      <a href="https://github.com/kliuj/local-ajax-api"  class="github morelink act" target="_blank">
+        如果对你有用，请给我一个star鼓励一下，谢谢O(∩_∩)O！
+      </a>
+    </div>
+  </body>
+</html>
