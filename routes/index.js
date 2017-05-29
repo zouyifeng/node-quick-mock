@@ -2,25 +2,27 @@
  * GET home page.
  */
 
-var fs = require('fs')
+let fs = require('fs')
 
-function saveName(name, url, idDel) {
+let saveName = (name, url, idDel) => {
 	//存储文件名和url到ajaxapilist文件
-	var jsonName = './public/jsonfile/ajaxapilist.json',
-		readPromise = new Promise(function (resolve, reject) {
-			resolve(fs.readFileSync(jsonName))
+	let jsonName = './public/jsonfile/ajaxapilist.json',
+		readPromise = new Promise((resolve, reject) => {
+			let ret = fs.readFileSync(jsonName);
+			ret ? resolve(ret) : reject();
+			// resolve(fs.readFileSync(jsonName))
 		});
 
-	var _writePromise = new Promise(function (resolve, reject) {
-		readPromise.then(function (response) {
-			var list = JSON.parse(response).dataList,
+	let _writePromise = new Promise((resolve, reject) => {
+		readPromise.then((response) => {
+			let list = JSON.parse(response).dataList,
 				new_arr = idDel ? [] : [{
 					"name": name,
 					"url": url
 				}]; //如果是删除则不需要这个新的数据
 			//合并json
 			if (list) {
-				for (var i = 0; i < list.length; i++) {
+				for (let i = 0; i < list.length; i++) {
 					//比较url，url不能重复
 					if (url != list[i].url) {
 						new_arr.push(list[i])
@@ -32,7 +34,7 @@ function saveName(name, url, idDel) {
 				"warn": "存放所有的关系表，建议不要手动修改",
 				"dataList": new_arr
 			})))
-		}).catch(function (response) {
+		}).catch((response) => {
 			resolve(fs.writeFileSync(jsonName, JSON.stringify({
 				"warn": "存放所有的关系表，建议不要手动修改",
 				"dataList": [{
@@ -42,99 +44,102 @@ function saveName(name, url, idDel) {
 			})))
 		})
 	})
-	_writePromise.then(function () {
 
-	}).catch(function () {
-
-	})
 }
-module.exports = function (app) {
+
+module.exports = app => {
 	//接口首页
-	app.get('/', function (req, res) {
-		var jsonName = './public/jsonfile/ajaxapilist.json';
-		var readPromise = new Promise(function (resolve, reject) {
-			resolve(fs.readFileSync(jsonName))
+	app.get('/', (req, res) => {
+		let jsonName = './public/jsonfile/ajaxapilist.json';
+		let readPromise = new Promise((resolve, reject) => {
+			let ret = fs.readFileSync(jsonName);
+			ret ? resolve(ret) : reject(ret);
+			
+			// resolve(fs.readFileSync(jsonName))
 		});
-		readPromise.then(function (response) {
-			response = JSON.parse(response);
-			if (response.dataList) {
-				res.render('index', {
-					haveList: true,
-					list: response.dataList
-				})
-			} else {
+
+		readPromise
+			.then((response) => {
+				response = JSON.parse(response);
+				if (response.dataList) {
+					res.render('index', {
+						haveList: true,
+						list: response.dataList
+					})
+				} else {
+					res.render('index', {
+						haveList: false,
+						list: []
+					})
+				}
+			})
+			.catch((response) => {
 				res.render('index', {
 					haveList: false,
 					list: []
 				})
-			}
-		}).catch(function (response) {
-			res.render('index', {
-				haveList: false,
-				list: []
 			})
-		})
 	})
 	//获取一个数据文件
-	app.get('/getjson/:jsonUrl', function (req, res) {
+	app.get('/getjson/:jsonUrl', (req, res) => {
 		//文件名称
-		console.log('get')
-		var jsonUrl = req.params.jsonUrl,
+		console.log(jsonUrl)
+		let jsonUrl = req.params.jsonUrl,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
-		var readPromise = new Promise(function (resolve, reject) {
+		let readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
-		readPromise.then(function (response) {
+		readPromise.then((response) => {
 			res.header("Access-Control-Allow-Origin", "*");
 			res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 			res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
 			res.json(JSON.parse(JSON.parse(response).detail))
-		}).catch(function (response) {
+		}).catch((response) => {
 			res.render('noresult')
 		})
 	})
 
 	app.post('/getjson/:jsonUrl', function (req, res) {
-		console.log(jsonUrl)
-		var jsonUrl = req.params.jsonUrl,
+		console.log(req.params.jsonUrl)
+		let jsonUrl = req.params.jsonUrl,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
-		var readPromise = new Promise(function (resolve, reject) {
+		let readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
-		readPromise.then(function (response) {
+		readPromise.then((response) => {
 			res.header("Access-Control-Allow-Origin", "*");
 			res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 			res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
 			res.json(JSON.parse(JSON.parse(response).detail))
-		}).catch(function (response) {
+		}).catch((response) => {
 			res.render('noresult')
 		})
 	})
 	//创建接口页面
-	app.get('/create', function (req, res) {
+	app.get('/create', (req, res) => {
 		res.render('create', {
 			isEdit: false
 		})
 	})
 	//存储json
-	app.post('/save', function (req, res) {
+	app.post('/save', (req, res) => {
 		//文件名称 是url 英文。便于调用 ；fileName只是描述内容
-		var fileName = req.body.name.replace(/\s/g, ""),
+		let fileName = req.body.name.replace(/\s/g, ""),
 			jsonUrl = req.body.url.replace(/\s/g, ""),
 			jsonString = req.body.data,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
 		if (fileName && jsonUrl) {
-			var readPromise = new Promise(function (resolve, reject) {
+			let readPromise = new Promise((resolve, reject) => {
 				resolve(fs.writeFileSync(jsonName, jsonString))
 			});
 			//把新的关系表保存到ajaxapilist
 			saveName(fileName, jsonUrl)
-			readPromise.then(function (response) {
+			readPromise.then((response) => {
 				res.json({
 					success: true,
 					message: "保存成功"
 				})
-			}).catch(function (response) {
+			}).catch((response) => {
 				res.json({
 					success: false,
 					message: response
@@ -150,39 +155,39 @@ module.exports = function (app) {
 
 	})
 	//编辑接口页面
-	app.get('/edit/:jsonUrl', function (req, res) {
+	app.get('/edit/:jsonUrl', (req, res) => {
 		//文件名称其实就是url最后的参数
-		var jsonUrl = req.params.jsonUrl,
+		let jsonUrl = req.params.jsonUrl,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
 		if (!jsonUrl) {
 			res.redirect('/')
 		} else {
-			var readPromise = new Promise(function (resolve, reject) {
+			let readPromise = new Promise((resolve, reject) => {
 				resolve(fs.readFileSync(jsonName))
 			});
-			readPromise.then(function (response) {
+			readPromise.then((response) => {
 				res.render('create', {
 					isEdit: true,
 					stringValueJson: JSON.parse(response)
 				})
-			}).catch(function (response) {
+			}).catch((response) => {
 				res.render('noresult')
 			})
 		}
 	})
 	//搜索接口
-	app.get('/search/:keyword', function (req, res) {
-		var keyword = req.params.keyword.replace(/\s/g, ""),
+	app.get('/search/:keyword', (req, res) => {
+		let keyword = req.params.keyword.replace(/\s/g, ""),
 			jsonName = './public/jsonfile/ajaxapilist.json';
-		var readPromise = new Promise(function (resolve, reject) {
+		let readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
-		readPromise.then(function (response) {
+		readPromise.then((response) => {
 			response = JSON.parse(response);
 			if (response.dataList) {
-				var list = response.dataList,
+				let list = response.dataList,
 					new_arr = [];
-				for (var i = 0; i < list.length; i++) {
+				for (let i = 0; i < list.length; i++) {
 					if (list[i].name.match(keyword) || list[i].url.match(keyword)) {
 						new_arr.push(list[i])
 					}
@@ -204,7 +209,7 @@ module.exports = function (app) {
 					list: []
 				})
 			}
-		}).catch(function (response) {
+		}).catch((response) => {
 			res.render('index', {
 				haveList: false,
 				list: []
@@ -212,17 +217,17 @@ module.exports = function (app) {
 		})
 	})
 	//判断是否重复
-	app.get('/repeat', function (req, res) {
-		var apiurl = req.query.apiurl.replace(/\s/g, ""),
+	app.get('/repeat', (req, res) => {
+		let apiurl = req.query.apiurl.replace(/\s/g, ""),
 			jsonName = './public/jsonfile/ajaxapilist.json',
-			readPromise = new Promise(function (resolve, reject) {
+			readPromise = new Promise((resolve, reject) => {
 				resolve(fs.readFileSync(jsonName))
 			});
-		readPromise.then(function (response) {
+		readPromise.then((response) => {
 			response = JSON.parse(response);
 			if (response.dataList) {
-				var list = response.dataList;
-				for (var i = 0; i < list.length; i++) {
+				let list = response.dataList;
+				for (let i = 0; i < list.length; i++) {
 					if (list[i].url == apiurl) {
 						res.json({
 							repeat: true,
@@ -241,7 +246,7 @@ module.exports = function (app) {
 					success: true
 				})
 			}
-		}).catch(function (response) {
+		}).catch((response) => {
 			res.json({
 				repeat: false,
 				success: true
@@ -249,20 +254,20 @@ module.exports = function (app) {
 		})
 	})
 	//删除接口
-	app.post("/delete", function (req, res) {
-		var jsonUrl = req.body.url.replace(/\s/g, ""),
+	app.post("/delete", (req, res) => {
+		let jsonUrl = req.body.url.replace(/\s/g, ""),
 			jsonName = './public/jsonfile/' + jsonUrl + '.json',
-			del = new Promise(function (resolve, reject) {
+			del = new Promise((resolve, reject) => {
 				resolve(fs.unlinkSync(jsonName))
 			});
 		saveName(jsonName, jsonUrl, true)
-		del.then(function (response) {
+		del.then((response) => {
 			console.log('ok')
 			res.json({
 				code: 0,
 				success: true
 			})
-		}).catch(function (e) {
+		}).catch((e) => {
 			console.log(e)
 			res.json({
 				code: 1,
