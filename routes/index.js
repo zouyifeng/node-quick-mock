@@ -54,7 +54,7 @@ module.exports = app => {
 		let readPromise = new Promise((resolve, reject) => {
 			let ret = fs.readFileSync(jsonName);
 			ret ? resolve(ret) : reject(ret);
-			
+
 			// resolve(fs.readFileSync(jsonName))
 		});
 
