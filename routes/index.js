@@ -83,7 +83,6 @@ module.exports = app => {
 	//获取一个数据文件
 	app.get('/getjson/:jsonUrl', (req, res) => {
 		//文件名称
-		console.log(jsonUrl)
 		let jsonUrl = req.params.jsonUrl,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
 		let readPromise = new Promise((resolve, reject) => {
@@ -192,7 +191,7 @@ module.exports = app => {
 						new_arr.push(list[i])
 					}
 				}
-				if (new_arr.length) {
+				if (new_arr.lefngth) {
 					res.render('index', {
 						haveList: true,
 						list: new_arr
