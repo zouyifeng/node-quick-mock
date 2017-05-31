@@ -1,1 +1,1 @@
-{"name":"course/detail","url":"course/detail","apiInfo":"","detail":"{\"id\":0,\"state\":{\"code\":2000,\"msg\":\"操作成功\"},\"data\":{\"id\":45,\"readCount\":23335,\"isBuy\":0,\"updateCount\":12,\"price\":0.01}}"}
+{"name":"course/detail","url":"course/detail","apiInfo":"","detail":"{\"id\":0,\"state\":{\"code\":2000,\"msg\":\"操作成功\"},\"data\":{\"id\":45,\"readCount\":23335,\"isBuy\":1,\"updateCount\":12,\"price\":0.01}}"}
