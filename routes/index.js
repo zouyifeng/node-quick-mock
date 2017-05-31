@@ -47,6 +47,32 @@ let saveName = (name, url, idDel) => {
 
 }
 
+let mkdirSync = (url, mode, cb) => {
+	console.log(url)
+	var path = require("path"),
+		arr = url.split("/");
+	mode = mode || 0755;
+	cb = cb || function () {};
+	if (arr[0] === ".") { //处理 ./aaa
+		arr.shift();
+	}
+	if (arr[0] == "..") { //处理 ../ddd/d
+		arr.splice(0, 2, arr[0] + "/" + arr[1])
+	}
+
+	function inner(cur) {
+		if (!fs.existsSync(cur)) { //不存在就创建一个
+			fs.mkdirSync(cur, mode)
+		}
+		if (arr.length) {
+			inner(cur + "/" + arr.shift());
+		} else {
+			cb();
+		}
+	}
+	arr.length && inner(arr.shift());
+}
+
 module.exports = app => {
 	//接口首页
 	app.get('/', (req, res) => {
@@ -81,18 +107,8 @@ module.exports = app => {
 	//获取一个数据文件
 	app.all('/getjson/*', (req, res) => {
 		//文件名称
-		let tempArr = req.params[0].split('/'),
-			jsonName = '';
-		switch(tempArr.length) {
-			case 1:
-				jsonName = './public/jsonfile/' + tempArr[0] + '.json';			
-				break;
-			case 2:
-				jsonName = './public/jsonfile/' + tempArr[0] + '/' + tempArr[1] + '.json';
-				break;	
-		} 
-		console.log(jsonName)
-		
+		let jsonName = './public/jsonfile/' + req.params[0] + '.json';
+
 		let readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
@@ -119,6 +135,14 @@ module.exports = app => {
 			jsonUrl = req.body.url.replace(/\s/g, ""),
 			jsonString = req.body.data,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
+
+		let tempArr = jsonUrl.split('/')
+		tempArr.pop();
+
+		console.log(tempArr.join('/'))
+		
+		mkdirSync('./public/jsonfile/' + tempArr.join('/'))
+		
 		if (fileName && jsonUrl) {
 			let readPromise = new Promise((resolve, reject) => {
 				resolve(fs.writeFileSync(jsonName, jsonString))
@@ -148,17 +172,8 @@ module.exports = app => {
 	//编辑接口页面
 	app.get('/edit/*', (req, res) => {
 		//文件名称其实就是url最后的参数
-		let tempArr = req.params[0].split('/'),
-			jsonName = '';
-		switch(tempArr.length) {
-			case 1:
-				jsonName = './public/jsonfile/' + tempArr[0] + '.json';			
-				break;
-			case 2:
-				jsonName = './public/jsonfile/' + tempArr[0] + '/' + tempArr[1] + '.json';
-				break;	
-		}
-		if (!tempArr.length) {
+		let jsonName = './public/jsonfile/' + req.params[0] + '.json';
+		if (!req.params[0]) {
 			res.redirect('/')
 		} else {
 			let readPromise = new Promise((resolve, reject) => {
