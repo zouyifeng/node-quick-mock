@@ -54,8 +54,6 @@ module.exports = app => {
 		let readPromise = new Promise((resolve, reject) => {
 			let ret = fs.readFileSync(jsonName);
 			ret ? resolve(ret) : reject(ret);
-
-			// resolve(fs.readFileSync(jsonName))
 		});
 
 		readPromise
@@ -81,10 +79,20 @@ module.exports = app => {
 			})
 	})
 	//获取一个数据文件
-	app.get('/getjson/:jsonUrl', (req, res) => {
+	app.all('/getjson/*', (req, res) => {
 		//文件名称
-		let jsonUrl = req.params.jsonUrl,
-			jsonName = './public/jsonfile/' + jsonUrl + '.json';
+		let tempArr = req.params[0].split('/'),
+			jsonName = '';
+		switch(tempArr.length) {
+			case 1:
+				jsonName = './public/jsonfile/' + tempArr[0] + '.json';			
+				break;
+			case 2:
+				jsonName = './public/jsonfile/' + tempArr[0] + '/' + tempArr[1] + '.json';
+				break;	
+		} 
+		console.log(jsonName)
+		
 		let readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
@@ -98,22 +106,6 @@ module.exports = app => {
 		})
 	})
 
-	app.post('/getjson/:jsonUrl', function (req, res) {
-		console.log(req.params.jsonUrl)
-		let jsonUrl = req.params.jsonUrl,
-			jsonName = './public/jsonfile/' + jsonUrl + '.json';
-		let readPromise = new Promise((resolve, reject) => {
-			resolve(fs.readFileSync(jsonName))
-		});
-		readPromise.then((response) => {
-			res.header("Access-Control-Allow-Origin", "*");
-			res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-			res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
-			res.json(JSON.parse(JSON.parse(response).detail))
-		}).catch((response) => {
-			res.render('noresult')
-		})
-	})
 	//创建接口页面
 	app.get('/create', (req, res) => {
 		res.render('create', {
@@ -154,11 +146,19 @@ module.exports = app => {
 
 	})
 	//编辑接口页面
-	app.get('/edit/:jsonUrl', (req, res) => {
+	app.get('/edit/*', (req, res) => {
 		//文件名称其实就是url最后的参数
-		let jsonUrl = req.params.jsonUrl,
-			jsonName = './public/jsonfile/' + jsonUrl + '.json';
-		if (!jsonUrl) {
+		let tempArr = req.params[0].split('/'),
+			jsonName = '';
+		switch(tempArr.length) {
+			case 1:
+				jsonName = './public/jsonfile/' + tempArr[0] + '.json';			
+				break;
+			case 2:
+				jsonName = './public/jsonfile/' + tempArr[0] + '/' + tempArr[1] + '.json';
+				break;	
+		}
+		if (!tempArr.length) {
 			res.redirect('/')
 		} else {
 			let readPromise = new Promise((resolve, reject) => {
