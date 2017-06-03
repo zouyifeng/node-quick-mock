@@ -2,6 +2,9 @@
     "name": "application-name"
   , "version": "0.0.1"
   , "private": true
+  ,"scripts": {
+    "start": "supervisor app"
+  }
   , "dependencies": {
       "express": "2.5.8"
     , "ejs": ">= 0.0.1"
