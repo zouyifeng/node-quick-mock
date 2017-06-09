@@ -1,6 +1,11 @@
 {
-    "projectList": [
-        "projectA",
-        "projectB"
+    "projectList": [{
+            "name": "项目一",
+            "url": "projectA"
+        },
+        {
+            "name": "项目一",
+            "url": "projectB"
+        }
     ]
 }

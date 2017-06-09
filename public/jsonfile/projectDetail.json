@@ -1,21 +1,27 @@
 {
     "warn": "存放所有的关系表，建议不要手动修改",
     "dataList": [{
+        "project": "projectA",
         "name": "course/play",
         "url": "course/play"
     }, {
+        "project": "projectA",
         "name": "course/detail",
         "url": "course/detail"
     }, {
+        "project": "projectA",        
         "name": "course/list",
         "url": "course/list"
     }, {
+        "project": "projectB",        
         "name": "weixin/user/save",
         "url": "weixin/user/save"
     }, {
+        "project": "projectB",        
         "name": "weixin/login",
         "url": "weixin/login"
     }, {
+        "project": "projectB",        
         "name": "course/specail/list",
         "url": "course/special/list"
     }]

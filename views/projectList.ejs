@@ -1,20 +1,18 @@
 <div class="index">
-	<% if(haveList && list.length > 0) {%>
-		<div style="height:60px;line-height:60px;font-size:25px;">接口列表</div>
+	<% if(haveList && projectList.length > 0) {%>
+		<div style="height:60px;line-height:60px;font-size:25px;">项目列表</div>
 		<ul class="searchlist">
-			<% list.forEach(function(item,index) { %>
+			<% projectList.forEach(function(item, index) { %>
 				<li>
 					<div class="item">
 						<p><%= item.name %></p>
-						<a href="/getjson/<%=item.url%>" target="_blank" class="view act">查看结果</a>
-						<a href="/edit/<%=item.url%>" target="_blank" class="view act">重新编辑</a>
-						<a href="javascript:;" data-id="<%=item.url%>" class="view act delete">删除接口</a>
+						<a href="/getjson/<%=item.url%>" target="_blank" class="view act">查看详情</a>
 					</div>
 				</li>
 			<% }) %>
 		</ul>
 	<% } else { %>
-		<p>本地没有找到任何已存在接口，点击右上角创建一个新接口</p>
+		<p>没有啥项目，点击右上角创建一个新项目吧~</p>
 	<% } %>
 </div>
 <script>
