@@ -3,10 +3,11 @@
  */
 
 let fs = require('fs')
+const projectList = './public/jsonfile/projectList.json';
+const projectDetail = './public/jsonfile/projectDetail.json';
 
 let saveName = (name, url, idDel) => {
 	//存储文件名和url到ajaxapilist文件
-	let jsonName = './public/jsonfile/ajaxapilist.json',
 		readPromise = new Promise((resolve, reject) => {
 			let ret = fs.readFileSync(jsonName);
 			ret ? resolve(ret) : reject();
@@ -31,12 +32,10 @@ let saveName = (name, url, idDel) => {
 				}
 			}
 			resolve(fs.writeFileSync(jsonName, JSON.stringify({
-				"warn": "存放所有的关系表，建议不要手动修改",
 				"dataList": new_arr
 			})))
 		}).catch((response) => {
 			resolve(fs.writeFileSync(jsonName, JSON.stringify({
-				"warn": "存放所有的关系表，建议不要手动修改",
 				"dataList": [{
 					"name": name,
 					"url": url
@@ -76,7 +75,7 @@ let mkdirSync = (url, mode, cb) => {
 module.exports = app => {
 	//接口首页
 	app.get('/', (req, res) => {
-		let jsonName = './public/jsonfile/ajaxapilist.json';
+		let jsonName = './public/jsonfile/projectList.json';
 		let readPromise = new Promise((resolve, reject) => {
 			let ret = fs.readFileSync(jsonName);
 			ret ? resolve(ret) : reject(ret);
@@ -85,20 +84,20 @@ module.exports = app => {
 		readPromise
 			.then((response) => {
 				response = JSON.parse(response);
-				if (response.dataList) {
-					res.render('index', {
+				if (response.projectList) {
+					res.render('projectList', {
 						haveList: true,
-						list: response.dataList
+						list: response.projectList
 					})
 				} else {
-					res.render('index', {
+					res.render('projectList', {
 						haveList: false,
 						list: []
 					})
 				}
 			})
 			.catch((response) => {
-				res.render('index', {
+				res.render('projectList', {
 					haveList: false,
 					list: []
 				})
@@ -207,18 +206,18 @@ module.exports = app => {
 					}
 				}
 				if (new_arr.lefngth) {
-					res.render('index', {
+					res.render('project', {
 						haveList: true,
 						list: new_arr
 					})
 				} else {
-					res.render('index', {
+					res.render('project', {
 						haveList: false,
 						list: []
 					})
 				}
 			} else {
-				res.render('index', {
+				res.render('project', {
 					haveList: false,
 					list: []
 				})
@@ -276,13 +275,11 @@ module.exports = app => {
 			});
 		saveName(jsonName, jsonUrl, true)
 		del.then((response) => {
-			console.log('ok')
 			res.json({
 				code: 0,
 				success: true
 			})
 		}).catch((e) => {
-			console.log(e)
 			res.json({
 				code: 1,
 				success: false,
