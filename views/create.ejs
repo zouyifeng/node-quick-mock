@@ -3,9 +3,11 @@
 	<span class="namespan">API名称</span>
 	<div class="ti1">
 		<% if(isEdit) { %>
+			<input  id="project" type="hidden" value="<%= project%>">		
 			<input type="text" id="apiname" class="nameinput" value="<%=stringValueJson.name%>">
 		<% } else { %>
-			<input type="text" id="apiname" class="nameinput" placeholder="中文数据接口名称，用于首页显示和搜索">
+			<input id="project" type="hidden" value="<%= project%>">
+			<input type="text" id="apiname" class="nameinput" placeholder="中文数据接口名称，用于首页显示和搜索" value="<%= project %>/"> 
 		<% } %>
 	</div>
 </div>
@@ -15,7 +17,7 @@
 		<% if(isEdit) { %>
 			<input type="text" id="apiurl" class="nameinput" value="<%=stringValueJson.url%>" onblur="checkApiUrl(<%=stringValueJson.url%>)">
 		<% } else { %>
-			<input type="text" id="apiurl" onblur="checkApiUrl()" class="nameinput" placeholder="英文APIurl，用于获取数据，http://localhost:3000/getjson/APIurl，不能重复">
+			<input type="text" id="apiurl" onblur="checkApiUrl()" class="nameinput" placeholder="英文APIurl，用于获取数据，http://localhost:3000/getjson/APIurl，不能重复" value="<%= project %>/">
 		<% } %>
 	</div>
 </div>
@@ -104,7 +106,8 @@
 	}
 	document.getElementById("ok-btn").addEventListener("click", function () {
 		var stringValue = document.getElementById("eT").value,
-			apiname = document.getElementById("apiname").value.replace(/\s/g, "");
+			apiname = document.getElementById("apiname").value.replace(/\s/g, ""),
+			project = document.getElementById("project").value.replace(/\s/g, "");
 		apiurl = document.getElementById("apiurl").value.replace(/\s/g, "");
 		if (!apiname || !apiurl) {
 			alert("API名称和url为必填");
@@ -116,9 +119,11 @@
 			data: {
 				'name': apiname,
 				'url': apiurl,
+				'project': project,
 				'data': JSON.stringify({
 					name: apiname,
 					url: apiurl,
+					project: project,
 					apiInfo: document.getElementById("api-introduce").value,
 					detail: stringValue
 				})

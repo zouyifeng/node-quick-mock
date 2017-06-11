@@ -5,10 +5,10 @@ var fs = require('fs')
 const projectList = './public/jsonfile/projectList.json';
 const projectDetail = './public/jsonfile/projectDetail.json';
 
-var saveName = (name, url, idDel) => {
+var saveName = (project, name, url, idDel) => {
 	//存储文件名和url到ajaxapilist文件
 		readPromise = new Promise((resolve, reject) => {
-			var ret = fs.readFileSync(jsonName);
+			var ret = fs.readFileSync(projectDetail);
 			ret ? resolve(ret) : reject();
 			// resolve(fs.readFileSync(jsonName))
 		});
@@ -18,7 +18,8 @@ var saveName = (name, url, idDel) => {
 			var list = JSON.parse(response).dataList,
 				new_arr = idDel ? [] : [{
 					"name": name,
-					"url": url
+					"url": url,
+					"project": project
 				}]; //如果是删除则不需要这个新的数据
 			//合并json
 			if (list) {
@@ -30,13 +31,14 @@ var saveName = (name, url, idDel) => {
 					}
 				}
 			}
-			resolve(fs.writeFileSync(jsonName, JSON.stringify({
+			resolve(fs.writeFileSync(projectDetail, JSON.stringify({
 				"dataList": new_arr
 			})))
 		}).catch((response) => {
-			resolve(fs.writeFileSync(jsonName, JSON.stringify({
+			resolve(fs.writeFileSync(projectDetail, JSON.stringify({
 				"dataList": [{
 					"name": name,
+					"project": project,
 					"url": url
 				}]
 			})))
@@ -122,10 +124,38 @@ module.exports = app => {
 	})
 
 	//创建接口页面
-	app.get('/create', (req, res) => {
+	app.get('*/create', (req, res) => {
+		console.log(req.params)
+		var project = req.params[0].split('/')[2]
 		res.render('create', {
-			isEdit: false
+			isEdit: false,
+			project: project
 		})
+	})
+
+	app.post('/createProject', (req, res) => {
+		var jsonName = './public/jsonfile/projectList.json';
+
+		var name = req.body.name;
+		var url = req.body.url;
+
+		var readPromise = new Promise((resolve, reject) => {
+			resolve(fs.readFileSync(jsonName))
+		});
+
+		mkdirSync('./public/jsonfile/' + name)
+
+		readPromise.then(function(response){
+			var temp = JSON.parse(response);
+			temp.projectList.push({
+				name: name,
+				url: url
+			});
+			fs.writeFileSync(jsonName, JSON.stringify(temp))
+		})
+
+		res.redirect('/')
+
 	})
 
 	app.get('/projectList/*', (req, res) => {
@@ -137,14 +167,14 @@ module.exports = app => {
 
 		readPromise.then((response) => {
 			var response = JSON.parse(response).dataList;
-			console.log(response)
 			var ret = response.filter((item, index) => {
 				return item.project === req.params[0];
 			})
 			
 			res.render('projectDetail', {
 				haveList: true,
-				list: ret
+				list: ret,
+				project: req.params[0]
 			})
 		})
 	})
@@ -154,6 +184,7 @@ module.exports = app => {
 		//文件名称 是url 英文。便于调用 ；fileName只是描述内容
 		var fileName = req.body.name.replace(/\s/g, ""),
 			jsonUrl = req.body.url.replace(/\s/g, ""),
+			project = req.body.project.replace(/\s/g, ""),
 			jsonString = req.body.data,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
 
@@ -167,7 +198,7 @@ module.exports = app => {
 				resolve(fs.writeFileSync(jsonName, jsonString))
 			});
 			//把新的关系表保存到ajaxapilist
-			saveName(fileName, jsonUrl)
+			saveName(project, fileName, jsonUrl)
 			readPromise.then((response) => {
 				res.json({
 					success: true,

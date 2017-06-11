@@ -1,4 +1,14 @@
 <div class="index">
+	<div style="height:60px;line-height:60px;font-size:25px;">项目列表</div>
+	<form action="/createProject" method="POST">
+		<label for="name">项目名称：</label>
+		<input id="name" type="text" name="name" value="">
+		<label for="url">项目url：</label>
+		<input id="url" type="text" name="url" value="">
+		<input type="submit" value="提交">
+	</form>
+</div>
+<div class="index">
 	<% if(haveList && projectList.length > 0) {%>
 		<div style="height:60px;line-height:60px;font-size:25px;">项目列表</div>
 		<ul class="searchlist">
@@ -6,7 +16,7 @@
 				<li>
 					<div class="item">
 						<p><%= item.name %></p>
-						<a href="/projectList/<%=item.url%>" target="_blank" class="view act">查看详情</a>
+						<a href="/projectList/<%=item.url%>" class="view act">查看详情</a>
 					</div>
 				</li>
 			<% }) %>
@@ -33,6 +43,5 @@
 				}
 			})
 		}
-
 	})
 </script>
