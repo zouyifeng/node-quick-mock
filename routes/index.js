@@ -1,29 +1,28 @@
 /*
  * GET home page.
  */
-
-let fs = require('fs')
+var fs = require('fs')
 const projectList = './public/jsonfile/projectList.json';
 const projectDetail = './public/jsonfile/projectDetail.json';
 
-let saveName = (name, url, idDel) => {
+var saveName = (name, url, idDel) => {
 	//存储文件名和url到ajaxapilist文件
 		readPromise = new Promise((resolve, reject) => {
-			let ret = fs.readFileSync(jsonName);
+			var ret = fs.readFileSync(jsonName);
 			ret ? resolve(ret) : reject();
 			// resolve(fs.readFileSync(jsonName))
 		});
 
-	let _writePromise = new Promise((resolve, reject) => {
+	var _writePromise = new Promise((resolve, reject) => {
 		readPromise.then((response) => {
-			let list = JSON.parse(response).dataList,
+			var list = JSON.parse(response).dataList,
 				new_arr = idDel ? [] : [{
 					"name": name,
 					"url": url
 				}]; //如果是删除则不需要这个新的数据
 			//合并json
 			if (list) {
-				for (let i = 0; i < list.length; i++) {
+				for (var i = 0; i < list.length; i++) {
 					//比较url，url不能重复
 					if (url != list[i].url) {
 						new_arr.push(list[i])
@@ -46,7 +45,7 @@ let saveName = (name, url, idDel) => {
 
 }
 
-let mkdirSync = (url, mode, cb) => {
+var mkdirSync = (url, mode, cb) => {
 	console.log(url)
 	var path = require("path"),
 		arr = url.split("/");
@@ -75,9 +74,9 @@ let mkdirSync = (url, mode, cb) => {
 module.exports = app => {
 	//接口首页
 	app.get('/', (req, res) => {
-		let jsonName = './public/jsonfile/projectList.json';
-		let readPromise = new Promise((resolve, reject) => {
-			let ret = fs.readFileSync(jsonName);
+		var jsonName = './public/jsonfile/projectList.json';
+		var readPromise = new Promise((resolve, reject) => {
+			var ret = fs.readFileSync(jsonName);
 			ret ? resolve(ret) : reject(ret);
 		});
 
@@ -87,33 +86,34 @@ module.exports = app => {
 				if (response.projectList) {
 					res.render('projectList', {
 						haveList: true,
-						list: response.projectList
+						projectList: response.projectList
 					})
 				} else {
 					res.render('projectList', {
 						haveList: false,
-						list: []
+						projectList: []
 					})
 				}
 			})
 			.catch((response) => {
 				res.render('projectList', {
 					haveList: false,
-					list: []
+					projectList: []
 				})
 			})
 	})
 	//获取一个数据文件
-	app.all('/getjson/*', (req, res) => {
+	app.all('/api/*', (req, res) => {
 		//文件名称
-		let jsonName = './public/jsonfile/' + req.params[0] + '.json';
+		console.log(req.params[0])
+		var jsonName = './public/jsonfile/' + req.params[0] + '.json';
 
-		let readPromise = new Promise((resolve, reject) => {
+		var readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
 		readPromise.then((response) => {
 			res.header("Access-Control-Allow-Origin", "*");
-			res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+			res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DEvarE,OPTIONS");
 			res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
 			res.json(JSON.parse(JSON.parse(response).detail))
 		}).catch((response) => {
@@ -127,23 +127,43 @@ module.exports = app => {
 			isEdit: false
 		})
 	})
+
+	app.get('/projectList/*', (req, res) => {
+		var jsonName = './public/jsonfile/projectDetail.json';
+
+		var readPromise = new Promise((resolve, reject) => {
+			resolve(fs.readFileSync(jsonName))
+		})
+
+		readPromise.then((response) => {
+			var response = JSON.parse(response).dataList;
+			console.log(response)
+			var ret = response.filter((item, index) => {
+				return item.project === req.params[0];
+			})
+			
+			res.render('projectDetail', {
+				haveList: true,
+				list: ret
+			})
+		})
+	})
+
 	//存储json
 	app.post('/save', (req, res) => {
 		//文件名称 是url 英文。便于调用 ；fileName只是描述内容
-		let fileName = req.body.name.replace(/\s/g, ""),
+		var fileName = req.body.name.replace(/\s/g, ""),
 			jsonUrl = req.body.url.replace(/\s/g, ""),
 			jsonString = req.body.data,
 			jsonName = './public/jsonfile/' + jsonUrl + '.json';
 
-		let tempArr = jsonUrl.split('/')
+		var tempArr = jsonUrl.split('/')
 		tempArr.pop();
-
-		console.log(tempArr.join('/'))
 		
 		mkdirSync('./public/jsonfile/' + tempArr.join('/'))
 		
 		if (fileName && jsonUrl) {
-			let readPromise = new Promise((resolve, reject) => {
+			var readPromise = new Promise((resolve, reject) => {
 				resolve(fs.writeFileSync(jsonName, jsonString))
 			});
 			//把新的关系表保存到ajaxapilist
@@ -171,11 +191,11 @@ module.exports = app => {
 	//编辑接口页面
 	app.get('/edit/*', (req, res) => {
 		//文件名称其实就是url最后的参数
-		let jsonName = './public/jsonfile/' + req.params[0] + '.json';
+		var jsonName = './public/jsonfile/' + req.params[0] + '.json';
 		if (!req.params[0]) {
 			res.redirect('/')
 		} else {
-			let readPromise = new Promise((resolve, reject) => {
+			var readPromise = new Promise((resolve, reject) => {
 				resolve(fs.readFileSync(jsonName))
 			});
 			readPromise.then((response) => {
@@ -190,17 +210,17 @@ module.exports = app => {
 	})
 	//搜索接口
 	app.get('/search/:keyword', (req, res) => {
-		let keyword = req.params.keyword.replace(/\s/g, ""),
+		var keyword = req.params.keyword.replace(/\s/g, ""),
 			jsonName = './public/jsonfile/ajaxapilist.json';
-		let readPromise = new Promise((resolve, reject) => {
+		var readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
 		readPromise.then((response) => {
 			response = JSON.parse(response);
 			if (response.dataList) {
-				let list = response.dataList,
+				var list = response.dataList,
 					new_arr = [];
-				for (let i = 0; i < list.length; i++) {
+				for (var i = 0; i < list.length; i++) {
 					if (list[i].name.match(keyword) || list[i].url.match(keyword)) {
 						new_arr.push(list[i])
 					}
@@ -231,7 +251,7 @@ module.exports = app => {
 	})
 	//判断是否重复
 	app.get('/repeat', (req, res) => {
-		let apiurl = req.query.apiurl.replace(/\s/g, ""),
+		var apiurl = req.query.apiurl.replace(/\s/g, ""),
 			jsonName = './public/jsonfile/ajaxapilist.json',
 			readPromise = new Promise((resolve, reject) => {
 				resolve(fs.readFileSync(jsonName))
@@ -239,8 +259,8 @@ module.exports = app => {
 		readPromise.then((response) => {
 			response = JSON.parse(response);
 			if (response.dataList) {
-				let list = response.dataList;
-				for (let i = 0; i < list.length; i++) {
+				var list = response.dataList;
+				for (var i = 0; i < list.length; i++) {
 					if (list[i].url == apiurl) {
 						res.json({
 							repeat: true,
@@ -267,8 +287,8 @@ module.exports = app => {
 		})
 	})
 	//删除接口
-	app.post("/delete", (req, res) => {
-		let jsonUrl = req.body.url.replace(/\s/g, ""),
+	app.post("/devare", (req, res) => {
+		var jsonUrl = req.body.url.replace(/\s/g, ""),
 			jsonName = './public/jsonfile/' + jsonUrl + '.json',
 			del = new Promise((resolve, reject) => {
 				resolve(fs.unlinkSync(jsonName))
