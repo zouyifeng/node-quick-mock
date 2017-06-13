@@ -1,4 +1,5 @@
 # QuickMock
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
 基于Express的mock平台，无需配置数据库，启动后即可实现本地mock接口数据。通过接口url,返回对应接口json数据。
 
 ## 功能点
