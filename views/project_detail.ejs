@@ -1,5 +1,5 @@
 <div class="index">
-		          <a href="<%=project %>/create" class="create-btn act">创建新接口</a>
+	<a href="<%=project %>/create" class="create-btn act">创建新接口</a>
 	<% if(haveList && list.length > 0) {%>
 		<div style="height:60px;line-height:60px;font-size:25px;">接口列表</div>
 
@@ -8,8 +8,8 @@
 				<li>
 					<div class="item">
 						<p><%= item.name %></p>
-						<a href="/api/<%=item.url%>" class="view act">查看结果</a>
-						<a href="/edit/<%=item.url%>" class="view act">重新编辑</a>
+						<a href="/detail/<%=item.url%>" class="view act">查看结果</a>
+						<a href="/detail/edit/<%=item.url%>" class="view act">重新编辑</a>
 						<a href="javascript:;" data-id="<%=item.url%>" class="view act delete">删除接口</a>
 					</div>
 				</li>
@@ -20,11 +20,11 @@
 	<% } %>
 </div>
 <script>
-	$(".delete").on('click',function(e){
+	$(".delete").on('click',function(e) {
 		var _id = $(e.currentTarget).data("id");
 		if(confirm("确定删除吗？")){
 			$.ajax({
-				url:'/delete',
+				url:'/detail/delete',
 				type:'post',
 				data:{
 					url:_id

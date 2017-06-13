@@ -2,28 +2,25 @@
  * Module dependencies.
  */
 var express = require('express')
-  , routes = require('./routes/index.js');
+  , routes = require('./routes/index')
+  , bodyParser = require('body-parser')
+  , partials = require('express-partials');
 
-var app = module.exports = express.createServer();
+module.exports = app = express();
 
 // Configuration
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.router(routes)); //自动解析url
-  app.use(express.static(__dirname + '/public'));
-});
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
+// app.set('views', './views')
+app.set('view engine', 'ejs');
+app.use(partials());
+// app.use(express.Router(routes)); //自动解析url
 
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
+routes(app);
 
 app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+// console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

@@ -1,3 +1,5 @@
+var fs = require('fs')
+
 /**
  * 创建多层目录
  * 

@@ -1,6 +1,6 @@
 <div class="index">
-	<div style="height:60px;line-height:60px;font-size:25px;">项目列表</div>
-	<form action="/createProject" method="POST">
+	<div style="height:60px;line-height:60px;font-size:25px;">项目新增</div>
+	<form action="/list/create" method="POST">
 		<label for="name">项目名称：</label>
 		<input id="name" type="text" name="name" value="">
 		<label for="url">项目url：</label>
@@ -16,7 +16,7 @@
 				<li>
 					<div class="item">
 						<p><%= item.name %></p>
-						<a href="/projectList/<%=item.url%>" class="view act">查看详情</a>
+						<a href="/detail/<%=item.url%>" class="view act">查看详情</a>
 					</div>
 				</li>
 			<% }) %>

@@ -1,9 +1,11 @@
-var app = require('express');
-var router = app.Router();
+var express = require('express');
+var fs = require('fs');
+var router = express.Router();
 var readPromise = require('../common/utils').getReadPromise
+var mkdirSync = require('../common/utils').mkdirSync
 
-const PROJECT_LIST = '../common/jsonfile/projectList.json'
-const PROJECT_DETAIL = '../common/jsonfile/projectDetail.json'
+const PROJECT_LIST = './common/jsonfile/projectList.json'
+const PROJECT_DETAIL = './common/jsonfile/projectDetail.json'
 
 //接口首页
 router.get('/list', (req, res) => {
@@ -31,7 +33,7 @@ router.get('/list', (req, res) => {
 		})
 })
 
-router.post('/create/project', (req, res) => {
+router.post('/list/create', (req, res) => {
 
 	var name = req.body.name;
 	var url = req.body.url;
@@ -45,10 +47,10 @@ router.post('/create/project', (req, res) => {
 				name: name,
 				url: url
 			});
-			fs.writeFileSync(jsonName, JSON.stringify(temp))
+			fs.writeFileSync(PROJECT_LIST, JSON.stringify(temp))
 		})
 
-	res.redirect('/')
+	res.redirect('/list')
 })
 
 //搜索接口
@@ -129,3 +131,5 @@ router.get('/repeat', (req, res) => {
 		})
 	})
 })
+
+module.exports = router;

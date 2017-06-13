@@ -1,12 +1,16 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  ,"scripts": {
+  "name": "QuickMock",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
     "start": "supervisor app"
-  }
-  , "dependencies": {
-      "express": "~4.14.0"
-    , "ejs": ">= 0.0.1"
+  },
+  "dependencies": {
+    "express": "~4.14.0",
+    "ejs": ">= 0.0.1",
+    "express-partials": "*"
+  },
+  "devDependencies": {
+    "body-parser": "^1.17.2"
   }
 }
