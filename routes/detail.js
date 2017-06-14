@@ -162,7 +162,7 @@ router.get('/detail/:projectName/create', (req, res) => {
 })
 
 //获取一个数据文件
-router.get('/detail/*', (req, res) => {
+router.get('/api/*', (req, res) => {
     //文件名称
     var jsonName = './json/' + req.params[0] + '.json';
 
