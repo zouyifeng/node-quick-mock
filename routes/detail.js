@@ -4,8 +4,8 @@ var router = express.Router()
 var readPromise = require('../common/utils').getReadPromise
 var mkdirSync = require('../common/utils').mkdirSync
 
-const PROJECT_LIST = './common/jsonfile/projectList.json'
-const PROJECT_DETAIL = './common/jsonfile/projectDetail.json'
+const PROJECT_LIST = './json/projectList.json'
+const PROJECT_DETAIL = './json/projectDetail.json'
 
 
 var saveName = (project, name, url, idDel) => {
@@ -70,12 +70,12 @@ router.post('/detail/save', (req, res) => {
         jsonUrl = req.body.url.replace(/\s/g, ""),
         project = req.body.project.replace(/\s/g, ""),
         jsonString = req.body.data,
-        jsonName = './public/jsonfile/' + jsonUrl + '.json';
+        jsonName = './json/' + jsonUrl + '.json';
 
     var tempArr = jsonUrl.split('/')
     tempArr.pop();
 
-    mkdirSync('./public/jsonfile/' + tempArr.join('/'));
+    mkdirSync('./json/' + tempArr.join('/'));
 
     if (fileName && jsonUrl) {
         var readPromise = new Promise((resolve, reject) => {
@@ -107,7 +107,7 @@ router.post('/detail/save', (req, res) => {
 //编辑接口页面
 router.get('/detail/edit/*', (req, res) => {
     //文件名称其实就是url最后的参数
-    var jsonName = './public/jsonfile/' + req.params[0] + '.json';
+    var jsonName = './json/' + req.params[0] + '.json';
 
     var projectName = req.params[0].split('/')[0];
 
@@ -131,7 +131,7 @@ router.get('/detail/edit/*', (req, res) => {
 //删除接口
 router.post("/detail/delete", (req, res) => {
     var jsonUrl = req.body.url.replace(/\s/g, ""),
-        jsonName = './public/jsonfile/' + jsonUrl + '.json',
+        jsonName = './json/' + jsonUrl + '.json',
         del = new Promise((resolve, reject) => {
             resolve(fs.unlinkSync(jsonName))
         });
@@ -164,7 +164,7 @@ router.get('/detail/:projectName/create', (req, res) => {
 //获取一个数据文件
 router.get('/detail/*', (req, res) => {
     //文件名称
-    var jsonName = './public/jsonfile/' + req.params[0] + '.json';
+    var jsonName = './json/' + req.params[0] + '.json';
 
     readPromise(jsonName)
         .then((response) => {

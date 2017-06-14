@@ -9,14 +9,15 @@
 	</form>
 </div>
 <div class="index">
-	<% if(haveList && projectList.length > 0) {%>
+	<% if(haveList && dataList.length > 0) {%>
 		<div style="height:60px;line-height:60px;font-size:25px;">项目列表</div>
 		<ul class="searchlist">
-			<% projectList.forEach(function(item, index) { %>
+			<% dataList.forEach(function(item, index) { %>
 				<li>
 					<div class="item">
 						<p><%= item.name %></p>
 						<a href="/detail/<%=item.url%>" class="view act">查看详情</a>
+						<a class="delete" data-id="<%=item.name%>" class="view act">删除项目</a>
 					</div>
 				</li>
 			<% }) %>
@@ -27,13 +28,13 @@
 </div>
 <script>
 	$(".delete").on('click',function(e){
-		var _id = $(e.currentTarget).data("id");
+		var name = $(e.currentTarget).data("id");
 		if(confirm("确定删除吗？")){
 			$.ajax({
-				url:'/delete',
+				url:'/list/delete',
 				type:'post',
 				data:{
-					url:_id
+					name: name
 				},
 				success:function(data){
 					if(data.code === 0) location.reload()

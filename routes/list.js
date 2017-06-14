@@ -3,9 +3,10 @@ var fs = require('fs');
 var router = express.Router();
 var readPromise = require('../common/utils').getReadPromise
 var mkdirSync = require('../common/utils').mkdirSync
+var deleteFolder = require('../common/utils').deleteFolder
 
-const PROJECT_LIST = './common/jsonfile/projectList.json'
-const PROJECT_DETAIL = './common/jsonfile/projectDetail.json'
+const PROJECT_LIST = './json/projectList.json'
+const PROJECT_DETAIL = './json/projectDetail.json'
 
 //接口首页
 router.get('/list', (req, res) => {
@@ -13,22 +14,22 @@ router.get('/list', (req, res) => {
 	readPromise(PROJECT_LIST)
 		.then((response) => {
 			response = JSON.parse(response);
-			if (response.projectList) {
+			if (response.dataList) {
 				res.render('project_list', {
 					haveList: true,
-					projectList: response.projectList
+					dataList: response.dataList
 				})
 			} else {
 				res.render('project_list', {
 					haveList: false,
-					projectList: []
+					dataList: []
 				})
 			}
 		})
 		.catch((response) => {
 			res.render('project_list', {
 				haveList: false,
-				projectList: []
+				dataList: []
 			})
 		})
 })
@@ -38,12 +39,12 @@ router.post('/list/create', (req, res) => {
 	var name = req.body.name;
 	var url = req.body.url;
 
-	mkdirSync('./public/jsonfile/' + name)
+	mkdirSync('./json/' + name)
 
 	readPromise(PROJECT_LIST)
 		.then(function (response) {
 			var temp = JSON.parse(response);
-			temp.projectList.push({
+			temp.dataList.push({
 				name: name,
 				url: url
 			});
@@ -53,10 +54,36 @@ router.post('/list/create', (req, res) => {
 	res.redirect('/list')
 })
 
+router.post('/list/delete', (req, res) => {
+	var name = req.body.name;
+	readPromise(PROJECT_LIST)
+		.then(function(response){
+			var temp = JSON.parse(response);
+			temp.dataList = temp.dataList.filter(function(item){
+				return item.name != name;
+			});
+			fs.writeFileSync(PROJECT_LIST, JSON.stringify(temp));
+			deleteFolder('./json/' + name);
+		});
+
+	readPromise(PROJECT_DETAIL)
+		.then(function(response){
+			var temp = JSON.parse(response);
+			temp.dataList = temp.dataList.filter(function(item){
+				return item.project != name;
+			});
+			fs.writeFileSync(PROJECT_DETAIL, JSON.stringify(temp));
+		});
+
+	res.json({
+		code: 0
+	})
+})
+
 //搜索接口
 router.get('/search/:keyword', (req, res) => {
 	var keyword = req.params.keyword.replace(/\s/g, ""),
-		jsonName = './public/jsonfile/ajaxapilist.json';
+		jsonName = './json/ajaxapilist.json';
 	var readPromise = new Promise((resolve, reject) => {
 		resolve(fs.readFileSync(jsonName))
 	});
@@ -97,7 +124,7 @@ router.get('/search/:keyword', (req, res) => {
 //判断是否重复
 router.get('/repeat', (req, res) => {
 	var apiurl = req.query.apiurl.replace(/\s/g, ""),
-		jsonName = './public/jsonfile/ajaxapilist.json',
+		jsonName = './json/ajaxapilist.json',
 		readPromise = new Promise((resolve, reject) => {
 			resolve(fs.readFileSync(jsonName))
 		});
