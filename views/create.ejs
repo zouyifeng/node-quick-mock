@@ -1,7 +1,6 @@
-<div class="apiInfo">创建一个API</div>
-<div class="name">
-	<span class="namespan">API名称</span>
-	<div class="ti1">
+<div class="apiInfo">新增接口</div>
+<!--<div class="name">
+<div class="ti1">
 		<% if(isEdit) { %>
 			<input id="project" type="hidden" value="<%= project %>">
 			<input type="text" id="apiname" class="nameinput" value="<%=stringValueJson.name%>">
@@ -10,18 +9,40 @@
 			<input type="text" id="apiname" class="nameinput" placeholder="中文数据接口名称，用于首页显示和搜索" value="<%= project %>/">
 		<% } %>
 	</div>
+</div>-->
+<input id="project" type="hidden" value="<%= project %>">
+<div class="input-group input-group-lg">
+	<span class="input-group-addon">接口名称</span>
+		<input type="text" id="apiname" class="form-control" placeholder="接口名称" value="<%= stringValueJson.name %>">	
 </div>
-<div class="name">
+<div class="input-group input-group-lg">
+	<span class="input-group-addon">接口名称</span>
+	<% if(isEdit) { %>
+		<input type="text" id="apiname" class="form-control" placeholder="接口名称" value="<%= stringValueJson.name %>">	
+	<% } else { %>
+		<input type="text" id="apiname" class="nameinput" placeholder="中文数据接口名称，用于首页显示和搜索" value="<%= project %>/">		
+	<% } %>
+</div>
+<!--<div class="name">
 	<span class="namespan">API url</span>
 	<div class="ti1">
 		<% if(isEdit) { %>
 			<input type="text" id="apiurl" class="nameinput" value="<%=stringValueJson.url%>" onblur="checkApiUrl(<%=stringValueJson.url%>)">
-			<% } else { %>
-				<input type="text" id="apiurl" onblur="checkApiUrl()" class="nameinput" placeholder="英文APIurl，用于获取数据，http://localhost:3000/getjson/APIurl，不能重复"
-				    value="<%= project %>/">
-				<% } %>
+		<% } else { %>
+			<input type="text" id="apiurl" onblur="checkApiUrl()" class="nameinput" placeholder="英文APIurl，用于获取数据，http://localhost:3000/getjson/APIurl，不能重复"
+			value="<%= project %>/">
+		<% } %>
 	</div>
+</div>-->
+<div class="input-group input-group-lg">
+	<span class="input-group-addon">接口URL</span>
+	<% if(isEdit) { %>
+		<input type="text" id="apiurl" class="nameinput" value="<%=stringValueJson.url%>" onblur="checkApiUrl(<%=stringValueJson.url%>)">
+	<% } else { %>
+		<input type="text" id="apiurl" onblur="checkApiUrl()" class="nameinput" placeholder="英文APIurl，用于获取数据，http://localhost:3000/getjson/APIurl，不能重复" value="<%= project %>/">	
+	<% } %>
 </div>
+
 <p id="warn">提示：此API url 已经存在，继续保存将会覆盖！</p>
 <div class="edit">
 	<div class="edit_left">
