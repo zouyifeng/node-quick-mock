@@ -1,17 +1,22 @@
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
-var readPromise = require('../common/utils').getReadPromise
-var mkdirSync = require('../common/utils').mkdirSync
-var deleteFolder = require('../common/utils').deleteFolder
+// var readPromise = require('../common/utils').getReadPromise
+// var mkdirSync = require('../common/utils').mkdirSync
+// var deleteFolder = require('../common/utils').deleteFolder
 
-const PROJECT_LIST = './json/projectList.json'
-const PROJECT_DETAIL = './json/projectDetail.json'
+// import * as util from '../common/utils'
+var util = require('../common/utils')
+
+// const PROJECT_LIST = './json/projectList.json'
+// const PROJECT_DETAIL = './json/projectDetail.json'
 
 //接口首页
 router.get('/list', (req, res) => {
 
-	readPromise(PROJECT_LIST)
+	// readPromise(PROJECT_LIST)
+
+	util.getProjectList()
 		.then((response) => {
 			response = JSON.parse(response);
 			if (response.dataList) {
@@ -38,17 +43,20 @@ router.post('/list/create', (req, res) => {
 
 	var name = req.body.name;
 	var url = req.body.url;
+	var desc = req.body.desc;
 
-	mkdirSync('./json/' + name)
+	util.mkdirSync('./json/' + name)
 
-	readPromise(PROJECT_LIST)
+	// readPromise(PROJECT_LIST)
+	util.getProjectList()
 		.then(function (response) {
 			var temp = JSON.parse(response);
 			temp.dataList.push({
 				name: name,
-				url: url
+				url: url,
+				desc: desc
 			});
-			fs.writeFileSync(PROJECT_LIST, JSON.stringify(temp))
+			util.writeProjectList(JSON.stringify(temp))
 		})
 
 	res.redirect('/list')
@@ -56,23 +64,25 @@ router.post('/list/create', (req, res) => {
 
 router.post('/list/delete', (req, res) => {
 	var name = req.body.name;
-	readPromise(PROJECT_LIST)
+	// readPromise(PROJECT_LIST)
+	util.getProjectList()
 		.then(function(response){
 			var temp = JSON.parse(response);
 			temp.dataList = temp.dataList.filter(function(item){
 				return item.name != name;
 			});
-			fs.writeFileSync(PROJECT_LIST, JSON.stringify(temp));
-			deleteFolder('./json/' + name);
+			util.writeProjectList(JSON.stringify(temp));
+			util.deleteFolder('./json/' + name);
 		});
 
-	readPromise(PROJECT_DETAIL)
+	// readPromise(PROJECT_DETAIL)
+	util.getProjectDetail()
 		.then(function(response){
 			var temp = JSON.parse(response);
 			temp.dataList = temp.dataList.filter(function(item){
 				return item.project != name;
 			});
-			fs.writeFileSync(PROJECT_DETAIL, JSON.stringify(temp));
+			util.writeProjectDetail(JSON.stringify(temp));
 		});
 
 	res.json({

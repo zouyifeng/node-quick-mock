@@ -1,4 +1,6 @@
 var fs = require('fs')
+const PROJECT_LIST = './json/projectList.json'
+const PROJECT_DETAIL = './json/projectDetail.json'
 
 /**
  * 创建多层目录
@@ -39,6 +41,22 @@ let getReadPromise = (file) => {
 	});
 }
 
+let getProjectList = () => {
+    return getReadPromise(PROJECT_LIST);
+}
+
+let getProjectDetail = () => {
+    return getReadPromise(PROJECT_DETAIL);
+}
+
+let writeProjectList = (content) => {
+    fs.writeFileSync(PROJECT_LIST, content);
+}
+
+let writeProjectDetail = (content) => {
+    fs.writeFileSync(PROJECT_DETAIL, content);
+}
+
 let deleteFolder = function(path) {
 
     var files = [];
@@ -72,5 +90,9 @@ let deleteFolder = function(path) {
 module.exports = {
     mkdirSync,
     getReadPromise,
-    deleteFolder
+    deleteFolder,
+    getProjectDetail,
+    getProjectList,
+    writeProjectDetail,
+    writeProjectList
 }

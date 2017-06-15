@@ -1,24 +1,42 @@
-<div class="index">
-	<a href="<%=project %>/create" class="create-btn act">创建新接口</a>
-	<% if(haveList && list.length > 0) {%>
-		<div style="height:60px;line-height:60px;font-size:25px;">接口列表</div>
+<a href="<%=project %>/create" class="btn btn-lg btn-default col-md-12">
+	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加接口
+</a>
 
-		<ul class="searchlist">
-			<% list.forEach(function(item,index) { %>
-				<li>
-					<div class="item">
-						<p><%= item.name %></p>
-						<a href="/api/<%=item.url%>" class="view act">查看结果</a>
-						<a href="/detail/edit/<%=item.url%>" class="view act">重新编辑</a>
-						<a href="javascript:;" data-id="<%=item.url%>" class="view act delete">删除接口</a>
-					</div>
-				</li>
-			<% }) %>
-		</ul>
-	<% } else { %>
-		<p>本地没有找到任何已存在接口，点击右上角创建一个新接口</p>
-	<% } %>
+<% if(haveList && list.length > 0) {%>
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">接口列表</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>项目</th>
+					<th>接口名称</th>
+					<th>接口url</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% list.forEach(function(item,index) { %>
+					<tr>
+						<th><%= item.project %></th>
+						<th><%= item.name %></th>
+						<th><%= item.url %></th>
+						<th>
+							<a href="/api/<%= item.url %>" class="btn btn-xs btn-default">查看结果</a>
+							<a href="/detail/edit/<%= item.url %>" class="btn btn-xs btn-default">重新编辑</a>
+							<a href="javascript:;" data-id="<%= item.url %>" class="btn btn-xs btn-default delete">删除接口</a>
+						</th>
+					</tr>		
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
 </div>
+<% } else { %>
+	<p>本地没有找到任何已存在接口，点击按钮创建一个新接口</p>
+<% } %>
 <script>
 	$(".delete").on('click',function(e) {
 		var _id = $(e.currentTarget).data("id");

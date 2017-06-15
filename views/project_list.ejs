@@ -1,29 +1,24 @@
-<div class="index">
-	<div style="height:60px;line-height:60px;font-size:25px;">项目新增</div>
-	<form action="/list/create" method="POST">
-		<label for="name">项目名称：</label>
-		<input id="name" type="text" name="name" value="">
-		<label for="url">项目url：</label>
-		<input id="url" type="text" name="url" value="">
-		<input type="submit" value="提交">
-	</form>
-</div>
-<div class="index">
-	<% if(haveList && dataList.length > 0) {%>
-		<div style="height:60px;line-height:60px;font-size:25px;">项目列表</div>
-		<ul class="searchlist">
-			<% dataList.forEach(function(item, index) { %>
-				<li>
-					<div class="item">
-						<p><%= item.name %></p>
-						<a href="/detail/<%=item.url%>" class="view act">查看详情</a>
-						<a class="delete" data-id="<%=item.name%>" class="view act">删除项目</a>
+<button class="btn btn-lg btn-default col-md-12" data-toggle="modal" data-target="#myModal">
+	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加项目
+</button>
+<div class="row">
+	<% if(haveList && dataList.length > 0) {%>	
+		<% dataList.forEach(function(item, index) { %>	
+			<div class="col-md-3">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3><%= item.name %></h3>
+						<p><%= item.desc %></p>
+						<p>
+							<a href="/detail/<%= item.url %>" class="btn btn-sm btn-primary">查看详情</a> 
+							<a class="delete" data-id="<%= item.name %>" class="btn btn-sm btn-default">删除项目</a>
+						</p>
 					</div>
-				</li>
-			<% }) %>
-		</ul>
+    			</div>
+  			</div>
+  		<% }) %>
 	<% } else { %>
-		<p>没有啥项目，点击右上角创建一个新项目吧~</p>
+  		<p>没有啥项目，点击右上角创建一个新项目吧~</p>
 	<% } %>
 </div>
 <script>

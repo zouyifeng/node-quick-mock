@@ -1,0 +1,46 @@
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+}
+.header {
+    height: 60px;
+    background-color: #5D4384;
+    width: 100%;
+    color: #fff;
+    padding: 0 40px;
+    line-height: 60px;
+}
+.header .title {
+    font-size: 20px;
+    color: #fff;
+}
+
+.header .title-icon {
+    font-size: 30px;
+    vertical-align: sub;
+}
+
+.crumb {
+    padding: 8px 50px;
+}
+
+.header .github{
+    content: '';
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-image: url(../images/github.png);
+}
+
+.header .support {
+    color: #fff;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 0;
+    height: 30px;
+    display: inline-block;
+    padding-left: 40px;
+    line-height: 30px;
+    margin-right: 100px;
+}

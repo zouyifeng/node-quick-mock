@@ -1,17 +1,23 @@
 var fs = require('fs')
 var express = require('express')
 var router = express.Router()
-var readPromise = require('../common/utils').getReadPromise
-var mkdirSync = require('../common/utils').mkdirSync
+// var readPromise = require('../common/utils').getReadPromise
+// var mkdirSync = require('../common/utils').mkdirSync
 
-const PROJECT_LIST = './json/projectList.json'
-const PROJECT_DETAIL = './json/projectDetail.json'
+// import * as util from '../common/utils'
+
+var util = require('../common/utils')
+
+
+// const PROJECT_LIST = './json/projectList.json'
+// const PROJECT_DETAIL = './json/projectDetail.json'
 
 
 var saveName = (project, name, url, idDel) => {
     //存储文件名和url到ajaxapilist文件
     var _writePromise = new Promise((resolve, reject) => {
-        readPromise(PROJECT_DETAIL)
+        // readPromise(PROJECT_DETAIL)
+        util.getProjectDetail()
             .then((response) => {
                 var list = JSON.parse(response).dataList,
                     new_arr = idDel ? [] : [{
@@ -48,7 +54,8 @@ router.get('/detail/:projectName', (req, res) => {
 
     // console.log(req.params.projectName)    
     var projectName = req.params.projectName
-    readPromise(PROJECT_DETAIL)
+    // readPromise(PROJECT_DETAIL)
+    util.getProjectDetail()
         .then((response) => {
             var response = JSON.parse(response).dataList;
             var ret = response.filter((item, index) => {
