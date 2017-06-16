@@ -1,8 +1,9 @@
-
-
+<a href="<%=project %>/create" class="btn btn-lg btn-default col-md-12 mb-15">
+	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加接口
+</a>
+<h3>接口列表</h3>
 <% if(haveList && list.length > 0) { %>
 <div class="panel panel-default">
-	<div class="panel-heading">接口列表</div>
 	<table class="table">
 		<thead>
 			<tr>
@@ -19,9 +20,9 @@
 					<th><%= item.name %></th>
 					<th><%= item.url %></th>
 					<th class="col-sm-3">
-						<a href="/api/<%= item.url %>" class="btn btn-xs btn-default">查看结果</a>
-						<a href="/detail/edit/<%= item.url %>" class="btn btn-xs btn-default">重新编辑</a>
-						<a href="javascript:;" data-id="<%= item.url %>" class="btn btn-xs btn-default delete">删除接口</a>
+						<a href="/api/<%= item.url %>" class="btn btn-xs btn-primary">查看结果</a>
+						<a href="/detail/edit/<%= item.url %>" class="btn btn-xs btn-primary">重新编辑</a>
+						<a href="javascript:;" data-id="<%= item.url %>" class="btn btn-xs btn-danger delete">删除接口</a>
 					</th>
 				</tr>		
 			<% }) %>
@@ -31,9 +32,6 @@
 <% } else { %>
 	<p>本地没有找到任何已存在接口，点击按钮创建一个新接口</p>
 <% } %>
-<a href="<%=project %>/create" class="btn btn-lg btn-default col-md-12">
-	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加接口
-</a>
 <script>
 	$(".delete").on('click',function(e) {
 		var _id = $(e.currentTarget).data("id");

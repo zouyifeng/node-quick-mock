@@ -1,9 +1,9 @@
 <button class="btn btn-lg btn-default col-md-12 mb-15" data-toggle="modal" data-target="#myModal">
 	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加项目
 </button>
-
-	<% if(haveList && dataList.length > 0) {%>	
-		<% dataList.forEach(function(item, index) { %>	
+<% if(haveList && dataList.length > 0) {%>	
+		<div class="row">
+	<% dataList.forEach(function(item, index) { %>	
 			<div class="col-md-3">
 				<div class="thumbnail">
 					<div class="caption">
@@ -11,16 +11,16 @@
 						<p><%= item.desc %></p>
 						<p>
 							<a href="/detail/<%= item.url %>" class="btn btn-sm btn-primary">查看详情</a> 
-							<a class="delete" data-id="<%= item.name %>" class="btn btn-sm btn-default">删除项目</a>
+							<a data-id="<%= item.name %>" class="btn btn-sm btn-danger delete">删除项目</a>
 						</p>
 					</div>
-    			</div>
-  			</div>
-  		<% }) %>
-	<% } else { %>
-  		<p>没有啥项目，点击右上角创建一个新项目吧~</p>
-	<% } %>
-
+				</div>
+			</div>
+	<% }) %>
+		</div>
+<% } else { %>
+	<div>没有啥项目，点击右上角创建一个新项目吧~</div>
+<% } %>
 <script>
 	$(".delete").on('click',function(e){
 		var name = $(e.currentTarget).data("id");
