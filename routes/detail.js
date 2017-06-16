@@ -35,11 +35,11 @@ var saveName = (project, name, url, idDel) => {
                         }
                     }
                 }
-                resolve(fs.writeFileSync(PROJECT_DETAIL, JSON.stringify({
+                resolve(util.writeProjectDetail(JSON.stringify({
                     "dataList": new_arr
                 })))
             }).catch((response) => {
-                resolve(fs.writeFileSync(PROJECT_DETAIL, JSON.stringify({
+                resolve(util.writeProjectDetail(JSON.stringify({
                     "dataList": [{
                         "name": name,
                         "project": project,
@@ -82,7 +82,7 @@ router.post('/detail/save', (req, res) => {
     var tempArr = jsonUrl.split('/')
     tempArr.pop();
 
-    mkdirSync('./json/' + tempArr.join('/'));
+    util.mkdirSync('./json/' + tempArr.join('/'));
 
     if (fileName && jsonUrl) {
         var readPromise = new Promise((resolve, reject) => {
@@ -90,17 +90,17 @@ router.post('/detail/save', (req, res) => {
         });
         //把新的关系表保存到ajaxapilist
         saveName(project, fileName, jsonUrl)
-        readPromise.then((response) => {
             res.json({
                 success: true,
                 message: "保存成功"
             })
-        }).catch((response) => {
-            res.json({
-                success: false,
-                message: response
-            })
-        })
+        // util.getReadPromise().then((response) => {
+        // }).catch((response) => {
+        //     res.json({
+        //         success: false,
+        //         message: response
+        //     })
+        // })
     } else {
         //后台加一道拦截，防止没有文件名和url
         res.json({
@@ -122,7 +122,7 @@ router.get('/detail/edit/*', (req, res) => {
     if (!req.params[0]) {
         res.redirect('/')
     } else {
-        readPromise(jsonName)
+        util.getReadPromise(jsonName)
             .then((response) => {
                 res.render('create', {
                     isEdit: true,
@@ -173,7 +173,7 @@ router.get('/api/*', (req, res) => {
     //文件名称
     var jsonName = './json/' + req.params[0] + '.json';
 
-    readPromise(jsonName)
+    util.getReadPromise(jsonName)
         .then((response) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DEvarE,OPTIONS");

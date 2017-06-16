@@ -31,6 +31,8 @@ a:hover, a:visited, a:link, a:active {
     display: inline-block;
     background-repeat: no-repeat;
     background-image: url(../images/github.png);
+    float: right;
+    margin-top: 15px;
 }
 
 .header .support {
@@ -43,4 +45,26 @@ a:hover, a:visited, a:link, a:active {
     padding-left: 40px;
     line-height: 30px;
     margin-right: 100px;
+}
+
+.edit-bar {
+    background-color: #555;
+    color: #FFF;
+    border-bottom: solid 1px #F3F3F3;
+    font-size: 78%;
+    padding: 10px 0 10px 20px;
+}
+
+.edit-area {
+    width: 100%;
+    min-height: 500px;
+}
+
+.edit-remark {
+    min-height: 200px;
+    margin-bottom: 15px;    
+}
+
+.mb-15 {
+    margin-bottom: 15px;
 }
