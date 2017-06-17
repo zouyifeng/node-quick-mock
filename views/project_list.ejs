@@ -2,8 +2,8 @@
 	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加项目
 </button>
 <% if(haveList && dataList.length > 0) {%>	
-		<div class="row">
-	<% dataList.forEach(function(item, index) { %>	
+	<div class="row">
+		<% dataList.forEach(function(item, index) { %>	
 			<div class="col-md-3">
 				<div class="thumbnail">
 					<div class="caption">
@@ -11,33 +11,32 @@
 						<p><%= item.desc %></p>
 						<p>
 							<a href="/detail/<%= item.url %>" class="btn btn-sm btn-primary">查看详情</a> 
-							<a data-id="<%= item.name %>" class="btn btn-sm btn-danger delete">删除项目</a>
+							<a data-name="<%= item.name %>" class="btn btn-sm btn-danger del">删除项目</a>
 						</p>
 					</div>
 				</div>
 			</div>
-	<% }) %>
-		</div>
+		<% }) %>
+	</div>
 <% } else { %>
 	<div>没有啥项目，点击右上角创建一个新项目吧~</div>
 <% } %>
 <script>
-	$(".delete").on('click',function(e){
-		var name = $(e.currentTarget).data("id");
-		if(confirm("确定删除吗？")){
-			$.ajax({
-				url:'/list/delete',
-				type:'post',
-				data:{
-					name: name
-				},
-				success:function(data){
-					if(data.code === 0) location.reload()
-				},
-				error:function(){
-					alert("出错了")
-				}
-			})
-		}
+	$(".del").on('click',function(){
+		var name = $(this).data("name");
+		$.ajax({
+			url:'/list/delete',
+			type:'post',
+			data:{
+				name: name
+			},
+			success:function(data){
+				alert(data.msg);
+				window.location.reload();
+			},
+			error:function(){
+				alert("删除出错！")
+			}
+		})
 	})
 </script>

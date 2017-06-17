@@ -1,21 +1,20 @@
-<div class="col-md-10 col-sm-offset-1">
-	<h3 class="apiInfo">新增接口</h3>
+<div class="col-md-12">
+	<h3>新增接口</h3>
 	<input id="project" type="hidden" value="<%= project %>">
 		<div class="input-group input-group-lg mb-15">
 			<span class="input-group-addon">接口名称</span>
 			<% if(isEdit) { %>
-				<input type="text" id="apiname" class="form-control" placeholder="接口名称" value="<%= stringValueJson.name %>">
+				<input type="text" id="apiname" class="form-control" value="<%= stringValueJson.name %>">
 			<% } else { %>
-				<input type="text" id="apiname" class="form-control" placeholder="中文数据接口名称，用于首页显示和搜索" value="<%= project %>/">
+				<input type="text" id="apiname" class="form-control" value="<%= project %>/">
 			<% } %>
 		</div>
 		<div class="input-group input-group-lg mb-15">
 			<span class="input-group-addon">接口URL</span>
 			<% if(isEdit) { %>
-				<input type="text" id="apiurl" class="form-control" value="<%=stringValueJson.url%>" onblur="checkApiUrl(<%=stringValueJson.url%>)">
+				<input type="text" id="apiurl" class="form-control" value="<%=stringValueJson.url%>">
 			<% } else { %>
-				<input type="text" id="apiurl" onblur="checkApiUrl()" class="form-control" placeholder="英文APIurl，用于获取数据，http://localhost:3000/getjson/APIurl，不能重复"
-					value="<%= project %>/">
+				<input type="text" id="apiurl" class="form-control" value="<%= project %>/">
 			<% } %>
 		</div>
 	<div class="row">
@@ -24,9 +23,9 @@
 				<div class="C A">JSON字符串</div>
 			</div>
 			<% if(isEdit) { %>
-				<textarea class="edit-area J x P" id="eT"><%=stringValueJson.detail%></textarea>
+				<textarea class="edit-area J x P" id="jsonText"><%=stringValueJson.detail%></textarea>
 			<% } else { %>
-				<textarea class="edit-area J x P" id="eT"></textarea>
+				<textarea class="edit-area J x P" id="jsonText"></textarea>
 			<% } %>
 		</div>
 		<div class="col-md-6">
@@ -58,9 +57,9 @@
 	<h3 class="apiInfo">备注信息</h3>
 	<div class="mb-15">
 		<% if(isEdit) { %>
-			<textarea id="api-introduce" class="col-md-12 edit-remark" ><%=stringValueJson.apiInfo%></textarea>
+			<textarea id="api-introduce" class="col-md-12 edit-remark"><%=stringValueJson.apiInfo%></textarea>
 		<% } else { %>
-			<textarea id="api-introduce" class="col-md-12 edit-remark" placeholder="填写接口的备注信息"></textarea>
+			<textarea id="api-introduce" class="col-md-12 edit-remark" placeholder="填写接口备注信息"></textarea>
 		<% } %>
 	</div>
 	<div style="text-align:center">
@@ -69,49 +68,32 @@
 </div>
 <script src="/lib/json_parse.js"></script>
 <script>
-	//记录被改变状态
-	var changed = true;
-	var _dom = document.getElementById("eT");
-
-	function checkJSON(stringValue) {
+	function checkJSON() {
+		var $textArea = $("#jsonTexteT"),
+			jsonStr = $('#jsonText').val();
 		try {
-			stringValue = JSON.parse(stringValue);
+			jsonStr = JSON.parse(jsonStr);
 		} catch (err) {
-			_dom.select(); // 选择对象
+			$textArea.select(); // 选择对象
 			document.execCommand("Copy"); // 执行浏览器复制命令
-			if (confirm("json格式有误，已复制到剪贴板，是否去检查格式?")) {
+			if (confirm("接口数据JSON格式有误，已复制到剪贴板，是否去检查格式?")) {
 				window.open("http://www.bejson.com/")
 			}
-			return false
-		}
-	}
-
-	function checkApiUrl(oldUrl) {
-		var apiurl = document.getElementById("apiurl").value.replace(/\s/g, "")
-		$.ajax({
-			url: '/repeat',
-			type: 'get',
-			data: {
-				apiurl: apiurl
-			},
-			success: function (data) {
-				if (data.repeat && apiurl != oldUrl) {
-					document.getElementById("warn").style.display = 'block'
-				} else {
-					document.getElementById("warn").style.display = 'none'
-				}
-			}
-		})
-	}
-	document.getElementById("ok-btn").addEventListener("click", function () {
-		var stringValue = document.getElementById("eT").value,
-			apiname = document.getElementById("apiname").value.replace(/\s/g, ""),
-			project = document.getElementById("project").value.replace(/\s/g, "");
-		apiurl = document.getElementById("apiurl").value.replace(/\s/g, "");
-		if (!apiname || !apiurl) {
-			alert("API名称和url为必填");
 			return false;
 		}
+		return true;
+	}
+	
+	$("#ok-btn").click(function () {
+		var stringValue = $("#jsonText").val(),
+			apiname = $("#apiname").val(),
+			project = $("#project").val(),
+			apiurl = $("#apiurl").val();
+
+		if(!checkJSON()){
+			return false;
+		}
+
 		$.ajax({
 			url: '/detail/save',
 			type: 'post',
@@ -123,7 +105,7 @@
 					name: apiname,
 					url: apiurl,
 					project: project,
-					apiInfo: document.getElementById("api-introduce").value,
+					apiInfo: $("#api-introduce").val(),
 					detail: stringValue
 				})
 			},

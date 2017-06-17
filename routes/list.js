@@ -1,40 +1,33 @@
 var express = require('express');
 var fs = require('fs');
+var path = require('path');
 var router = express.Router();
-// var readPromise = require('../common/utils').getReadPromise
-// var mkdirSync = require('../common/utils').mkdirSync
-// var deleteFolder = require('../common/utils').deleteFolder
-
-// import * as util from '../common/utils'
-var util = require('../common/utils')
-
-// const PROJECT_LIST = './json/projectList.json'
-// const PROJECT_DETAIL = './json/projectDetail.json'
+var util = require('../common/utils');
 
 //接口首页
 router.get('/list', (req, res) => {
-
-	// readPromise(PROJECT_LIST)
-
 	util.getProjectList()
 		.then((response) => {
 			response = JSON.parse(response);
 			if (response.dataList) {
 				res.render('project_list', {
 					haveList: true,
-					dataList: response.dataList
+					dataList: response.dataList,
+					page: 'list'
 				})
 			} else {
 				res.render('project_list', {
 					haveList: false,
-					dataList: []
+					dataList: [],
+					page: 'list'
 				})
 			}
 		})
 		.catch((response) => {
 			res.render('project_list', {
 				haveList: false,
-				dataList: []
+				dataList: [],
+				page: 'list'
 			})
 		})
 })
@@ -47,19 +40,25 @@ router.post('/list/create', (req, res) => {
 
 	util.mkdirSync('./json/' + name)
 
-	// readPromise(PROJECT_LIST)
 	util.getProjectList()
 		.then(function (response) {
 			var temp = JSON.parse(response);
+			var list = temp.dataList;
+			for(var i = 0; i< list.length; i++){
+				if(name == list[i].name) {
+					res.status(500).json({msg: '项目重复！'}).end();
+					return ;
+				}
+			}
 			temp.dataList.push({
 				name: name,
 				url: url,
 				desc: desc
 			});
+			res.status(200).json({msg: '创建成功！'}).end();			
 			util.writeProjectList(JSON.stringify(temp))
 		})
-
-	res.redirect('/list')
+		// res.redirect('/list')
 })
 
 router.post('/list/delete', (req, res) => {
@@ -86,87 +85,28 @@ router.post('/list/delete', (req, res) => {
 		});
 
 	res.json({
-		code: 0
+		code: 2000,
+		msg: '删除成功！'	
 	})
 })
 
-//搜索接口
-router.get('/search/:keyword', (req, res) => {
-	var keyword = req.params.keyword.replace(/\s/g, ""),
-		jsonName = './json/ajaxapilist.json';
-	var readPromise = new Promise((resolve, reject) => {
-		resolve(fs.readFileSync(jsonName))
-	});
-	readPromise.then((response) => {
-		response = JSON.parse(response);
-		if (response.dataList) {
-			var list = response.dataList,
-				new_arr = [];
-			for (var i = 0; i < list.length; i++) {
-				if (list[i].name.match(keyword) || list[i].url.match(keyword)) {
-					new_arr.push(list[i])
-				}
-			}
-			if (new_arr.lefngth) {
-				res.render('project', {
-					haveList: true,
-					list: new_arr
-				})
-			} else {
-				res.render('project', {
-					haveList: false,
-					list: []
-				})
-			}
-		} else {
-			res.render('project', {
-				haveList: false,
-				list: []
-			})
-		}
-	}).catch((response) => {
-		res.render('index', {
-			haveList: false,
-			list: []
-		})
+router.get('/list/download/:projectName', (req, res) => {
+	var projectName = req.params.projectName;
+	var pathName = path.resolve(__dirname, '../json/');
+
+	console.log(projectName)
+	console.log(pathName)
+
+	var options = {
+		root: pathName,
+	}
+
+	res.sendFile(projectName, options, function(err){
+		console.log(err)
 	})
-})
-//判断是否重复
-router.get('/repeat', (req, res) => {
-	var apiurl = req.query.apiurl.replace(/\s/g, ""),
-		jsonName = './json/ajaxapilist.json',
-		readPromise = new Promise((resolve, reject) => {
-			resolve(fs.readFileSync(jsonName))
-		});
-	readPromise.then((response) => {
-		response = JSON.parse(response);
-		if (response.dataList) {
-			var list = response.dataList;
-			for (var i = 0; i < list.length; i++) {
-				if (list[i].url == apiurl) {
-					res.json({
-						repeat: true,
-						success: true
-					});
-					return
-				}
-			}
-			res.json({
-				repeat: false,
-				success: true
-			})
-		} else {
-			res.json({
-				repeat: false,
-				success: true
-			})
-		}
-	}).catch((response) => {
-		res.json({
-			repeat: false,
-			success: true
-		})
-	})
+
+	// res.download(pathName, projectName);
+	// res.download('')
 })
 
 module.exports = router;

@@ -22,9 +22,7 @@
   </div>
   <ol class="breadcrumb crumb">
     <li><a href="/list">项目列表</a></li>
-    <% if(true) {%>
-      <li class="active">项目详情</li>
-    <% } %>
+    <!--<li class="active">项目详情</li>-->
   </ol>
   <div class="container-fluid">
     <div class="col-md-10 col-md-offset-1">
@@ -60,7 +58,6 @@
     </div>
   </div>
 </body>
-
 <script type="text/javascript">
   $('#addNewProject').click(function () {
     $.ajax({
@@ -72,10 +69,13 @@
         desc: $("#desc").val()
       },
       success: function (data) {
+        console.log(data)
+        alert(data.msg)
         window.location.reload();
       },
-      error: function () {
-        alert('保存失败！')
+      error: function (data) {
+        console.log(data)
+        alert(data.responseJSON.msg)
       }
     })
   })
