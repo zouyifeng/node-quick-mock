@@ -23,5 +23,16 @@ app.use(partials());
 
 routes(app);
 
+app.use(function(req, res, next) {
+    var err = new Error('Not Found')
+    err.status = 404;
+    next(err);
+});
+
+app.use(function(err, req, res, next){
+    res.status(404).send('not found 404')
+})
+
+
 app.listen(3000);
 // console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
