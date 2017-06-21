@@ -66,10 +66,10 @@
 		<a class="btn btn-lg btn-primary mb-15" id="ok-btn">编辑完成，保存接口</a>
 	</div>
 </div>
-<script src="/lib/json_parse.js"></script>
+<script type="text/javascript" src="/lib/editJson.min.js"></script>
 <script>
 	function checkJSON() {
-		var $textArea = $("#jsonTexteT"),
+		var $textArea = $("#jsonText"),
 			jsonStr = $('#jsonText').val();
 		try {
 			jsonStr = JSON.parse(jsonStr);

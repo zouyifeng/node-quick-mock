@@ -8,6 +8,7 @@ module.exports = function(app) {
 		next(err);
 	});
 	app.use(function(err, req, res, next){
-		res.status(404).send('not found 404')
+		// res.status(404).send('页面不存在，正在为您跳转到首页~')
+		res.redirect('/list');
 	})
 }; 

@@ -1,0 +1,1 @@
+{"name":"wechat_login","url":"wechat/login","project":"wechat","apiInfo":"登陆成功返回数据","detail":"{\n   \"msg\":\"success\",\n   \"status\":\"200\"\n}"}

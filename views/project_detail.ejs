@@ -1,6 +1,17 @@
-<a href="<%=project %>/create" class="btn btn-lg btn-default col-md-12 mb-15">
+<a href="<%= project %>/create" class="btn btn-lg btn-primary col-md-12 mb-15">
 	<span class="glyphicon glyphicon-plus"></span>&nbsp;添加接口
 </a>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="请输入大致的接口url" id="searchUrl">
+	  <input type="hidden" value="<%= project %>" id="project">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" id="foundUrl">接口查询</button>
+      </span>
+    </div>
+  </div>
+</div>
 <h3>接口列表</h3>
 <% if(haveList && list.length > 0) { %>
 <div class="panel panel-default">
@@ -48,6 +59,18 @@
 				alert("出错了")
 			}
 		})
+	})
 
+	$('#foundUrl').on('click', function() {
+		var url = $('#searchUrl').val();
+		var project=$('#project').val();
+		$.ajax({
+			url: '/detail/search',
+			type: 'post',
+			data: {
+				url: url,
+				project: project
+			}
+		})
 	})
 </script>

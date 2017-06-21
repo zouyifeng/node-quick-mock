@@ -53,6 +53,7 @@ router.get('/detail/:projectName', (req, res) => {
                 project: projectName,
                 page: 'list'
             })
+
         })
 })
 
@@ -133,6 +134,27 @@ router.get('/detail/:projectName/create', (req, res) => {
         isEdit: false,
         project: projectName
     })
+})
+
+// 查询
+router.post('/detail/search', (req, res) => {
+    var url = req.body.url;
+    var projectName = req.body.project;
+                        res.redirect('/');
+    // res.status(404).end()
+
+    // util.getProjectDetail()
+    //     .then((response)=>{
+    //         var temp = JSON.parse(response).dataList;
+    //         var ret = temp.filter((item, index) => {
+    //             return item.url.indexOf(url) != -1 && item;
+    //         })
+    //         res.render('project_detail', {
+    //             haveList: true,
+    //             list: ret,
+    //             project: projectName
+    //         })
+    //     })
 })
 
 //获取一个数据文件
