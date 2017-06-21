@@ -140,9 +140,8 @@ router.get('/detail/:projectName/create', (req, res) => {
 router.post('/detail/search', (req, res) => {
     var url = req.body.url;
     var projectName = req.body.project;
-                        res.redirect('/');
+    res.redirect('/list');
     // res.status(404).end()
-
     // util.getProjectDetail()
     //     .then((response)=>{
     //         var temp = JSON.parse(response).dataList;
