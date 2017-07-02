@@ -3,6 +3,16 @@
 
 感兴趣的话，可以给个Star支持下，[项目地址](https://github.com/zouyifeng/QuickMock)~
 
+## 启动
+
+``` bash
+# install dependencies
+npm install
+
+# 访问localhost:3000/list
+npm start
+```
+
 ## 前言
 在平时的开发中，前端模拟API数据的方式有很多种。
 
@@ -67,17 +77,6 @@ Mock Server应该具备以下几点功能：
 * 响应请求，返回相应数据
 * 生成接口文档，方便前后端查阅
 * 支持接口自动化测试
-
-
-## 启动
-
-``` bash
-# install dependencies
-npm install
-
-# 访问localhost:3000/list
-npm start
-```
 
 ## 功能
 * 支持保存多个项目的接口数据
