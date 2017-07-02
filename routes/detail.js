@@ -140,20 +140,19 @@ router.get('/detail/:projectName/create', (req, res) => {
 router.post('/detail/search', (req, res) => {
     var url = req.body.url;
     var projectName = req.body.project;
-    res.redirect('/list');
+    // res.redirect('/list');
     // res.status(404).end()
-    // util.getProjectDetail()
-    //     .then((response)=>{
-    //         var temp = JSON.parse(response).dataList;
-    //         var ret = temp.filter((item, index) => {
-    //             return item.url.indexOf(url) != -1 && item;
-    //         })
-    //         res.render('project_detail', {
-    //             haveList: true,
-    //             list: ret,
-    //             project: projectName
-    //         })
-    //     })
+    util.getProjectDetail()
+        .then((response)=>{
+            var temp = JSON.parse(response).dataList;
+            var ret = temp.filter((item, index) => {
+                return item.url.indexOf(url) != -1 && item;
+            })
+            res.json({
+                haveList: true,
+                list: ret
+            })
+        })
 })
 
 //获取一个数据文件

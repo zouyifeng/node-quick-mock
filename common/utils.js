@@ -9,7 +9,7 @@ const PROJECT_DETAIL = './json/projectDetail.json'
  * @param {any} mode 
  * @param {any} cb 
  */
-let mkdirSync = (url, mode, cb) => {
+var mkdirSync = (url, mode, cb) => {
     var path = require("path"),
         arr = url.split("/");
     mode = mode || 0755;
@@ -34,30 +34,30 @@ let mkdirSync = (url, mode, cb) => {
     arr.length && inner(arr.shift());
 }
 
-let getReadPromise = (file) => {
+var getReadPromise = (file) => {
     return new Promise((resolve, reject) => {
 		var ret = fs.readFileSync(file);
 		ret ? resolve(ret) : reject(ret);
 	});
 }
 
-let getProjectList = () => {
+var getProjectList = () => {
     return getReadPromise(PROJECT_LIST);
 }
 
-let getProjectDetail = () => {
+var getProjectDetail = () => {
     return getReadPromise(PROJECT_DETAIL);
 }
 
-let writeProjectList = (content) => {
+var writeProjectList = (content) => {
     fs.writeFileSync(PROJECT_LIST, content);
 }
 
-let writeProjectDetail = (content) => {
+var writeProjectDetail = (content) => {
     fs.writeFileSync(PROJECT_DETAIL, content);
 }
 
-let deleteFolder = function(path) {
+var devareFolder = function(path) {
 
     var files = [];
 
@@ -71,9 +71,9 @@ let deleteFolder = function(path) {
 
             if(fs.statSync(curPath).isDirectory()) { // recurse
 
-                deleteFolderRecursive(curPath);
+                devareFolderRecursive(curPath);
 
-            } else { // delete file
+            } else { // devare file
 
                 fs.unlinkSync(curPath);
 
@@ -90,7 +90,7 @@ let deleteFolder = function(path) {
 module.exports = {
     mkdirSync,
     getReadPromise,
-    deleteFolder,
+    devareFolder,
     getProjectDetail,
     getProjectList,
     writeProjectDetail,

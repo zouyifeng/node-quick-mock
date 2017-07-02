@@ -24,7 +24,7 @@
 				<th>操作</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="list">
 			<% list.forEach(function(item,index) { %>
 				<tr>
 					<th><%= item.project %></th>
@@ -65,11 +65,29 @@
 		var url = $('#searchUrl').val();
 		var project=$('#project').val();
 		$.ajax({
-			url: '/detail/search',
+			url: '/detail/search?' + Math.random(),
 			type: 'post',
 			data: {
 				url: url,
 				project: project
+			},
+			success: function(data) {
+				var str = '';
+				if(data.haveList) {
+					for(var i=0; i< data.list.length; i++) {
+						str += 	`<tr>
+											<th>${data.list[i].project}</th>
+											<th>${data.list[i].name}</th>
+											<th>${data.list[i].url}</th>
+											<th class="col-sm-3">
+												<a href="/api/${data.list[i].url}" class="btn btn-xs btn-primary">查看结果</a>
+												<a href="/detail/edit/${data.list[i].url}" class="btn btn-xs btn-primary">重新编辑</a>
+												<a href="javascript:;" data-url="${data.list[i].url}" class="btn btn-xs btn-danger del">删除接口</a>
+											</th>
+										</tr>`
+					}
+					$('#list').html(str)
+				}
 			}
 		})
 	})
