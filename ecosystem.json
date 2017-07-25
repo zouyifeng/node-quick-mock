@@ -1,0 +1,28 @@
+{
+  "apps:" : [
+    {
+      "name": "QuickMock",
+      "script": "/bin/www",
+      "env": {
+        "COMMON_VARIABLE": "true"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy": {
+    "production": {
+      "user": "ubuntu",
+      "host": ["119.29.57.28"],
+      "port": "39999",
+      "ref": "origin/master",
+      "repo": "git@github.com:zouyifeng/QuickMock.git",
+      "path": "~/temp/QuickMock",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
