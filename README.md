@@ -95,35 +95,34 @@ Mock Server应该具备以下几点功能：
 ### 新增项目
 输入项目名称，项目url（可以理解为，对于区分不同项目的特定字符串），项目描述。
 
-![新增项目](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock1.png)
+![新增项目](http://img.zouyifeng.cn/qm2.png)
 
 
 ### 项目列表
 项目面板，展示已存在的所有项目。
 
-![项目列表](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock2.png)
+![项目列表](http://img.zouyifeng.cn/qm1.png)
 
 
 ### 项目添加接口
 选择一个项目后，可以查看该项目下的接口信息和为该项目添加接口。
 
-![项目添加接口](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock3.png)
+![项目添加接口](http://img.zouyifeng.cn/qm3.png)
 
 
 ### 编辑接口
 输入接口名称和接口URL，将相对应json数据输入左侧，同时右侧预览json数据格式是否合法，下方填入此接口的备注说明。
 
-![编辑接口](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock4.png)
+![编辑接口](http://img.zouyifeng.cn/qm4.png)
 
-![编辑接口完成](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock5.png)
 
 ### 接口列表
 可以查看项目中有哪些接口，如果接口过多，支持接口的模糊查询。
 
-![接口列表](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock6.png)
+![接口列表](http://img.zouyifeng.cn/qm3.png)
 
 
 ### postman验证接口有效
 利用postman，验证Mock Server可以将数据真实有效的返回
 
-![postman验证接口有效](http://7xo8y0.com1.z0.glb.clouddn.com/quickmock7.png)
+![postman验证接口有效](http://img.zouyifeng.cn/qm5.png)
