@@ -1,9 +1,12 @@
 {
-  "name": "QuickMock",
+  "name": "node-quick-mock",
   "version": "0.0.1",
-  "private": true,
+  "author": {
+    "name": "zouyifeng",
+    "email": "zouyifeng@aliyun.com"
+  },
   "scripts": {
-    "start": "supervisor ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "express": "~4.14.0",
@@ -11,6 +14,8 @@
     "express-partials": "*"
   },
   "devDependencies": {
-    "body-parser": "^1.17.2"
+    "body-parser": "^1.17.2",
+    "sequelize": "^4.31.0",
+    "sqlite3": "^3.1.13"
   }
 }

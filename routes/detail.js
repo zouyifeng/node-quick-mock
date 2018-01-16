@@ -3,6 +3,9 @@ var express = require('express')
 var router = express.Router()
 var util = require('../common/utils')
 
+var project = require('../models/projects')
+var api = require('../models/apis')
+
 var saveName = (project, name, url, idDel) => {
     var _writePromise = new Promise((resolve, reject) => {
         util.getProjectDetail()
@@ -37,24 +40,23 @@ var saveName = (project, name, url, idDel) => {
     })
 }
 
-router.get('/detail/:projectName', (req, res) => {
+router.get('/detail/:projectId', (req, res) => {
+    var projectId = req.params.projectId
 
-    var projectName = req.params.projectName
-    util.getProjectDetail()
-        .then((response) => {
-            var response = JSON.parse(response).dataList;
-            var ret = response.filter((item, index) => {
-                return item.project === projectName;
-            })
-
+    var selectProject = {}
+    
+    project.selectOneProject(projectId).then(selectedProject => {
+        selectProject = project
+        // console.log(selectedProject)
+        api.selectAllApi(projectId).then(list => {
             res.render('project_detail', {
                 haveList: true,
-                list: ret,
-                project: projectName,
+                list: list,
+                project: selectProject.name,
                 page: 'list'
             })
-
         })
+    })
 })
 
 //存储json
@@ -68,7 +70,7 @@ router.post('/detail/save', (req, res) => {
     var tempArr = jsonUrl.split('/')
     tempArr.pop();
 
-    util.mkdirSync('./json/' + tempArr.join('/'));
+    // util.mkdirSync('./json/' + tempArr.join('/'));
 
     if (fileName && jsonUrl) {
         var readPromise = new Promise((resolve, reject) => {
@@ -88,9 +90,10 @@ router.post('/detail/save', (req, res) => {
 })
 
 //编辑接口页面
-router.get('/detail/edit/*', (req, res) => {
-    var jsonName = './json/' + req.params[0] + '.json';
-    var projectName = req.params[0].split('/')[0];
+router.get('/detail/edit/:apiId', (req, res) => {
+    // var jsonName = './json/' + req.params[0] + '.json';
+    // var projectName = req.params[0].split('/')[0];
+    // var 
 
     if (!req.params[0]) {
         res.redirect('/')

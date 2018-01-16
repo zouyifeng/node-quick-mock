@@ -10,8 +10,8 @@
 						<h3><%= item.name %></h3>
 						<p><%= item.desc %></p>
 						<p>
-							<a href="/detail/<%= item.url %>" class="btn btn-sm btn-primary">查看详情</a> 
-							<a data-name="<%= item.name %>" class="btn btn-sm btn-danger del">删除项目</a>
+							<a href="/detail/<%= item.id %>" class="btn btn-sm btn-primary">查看详情</a> 
+							<a data-id="<%= item.id %>" class="btn btn-sm btn-danger del">删除项目</a>
 						</p>
 					</div>
 				</div>
@@ -23,12 +23,12 @@
 <% } %>
 <script>
 	$(".del").on('click',function(){
-		var name = $(this).data("name");
+		var id = $(this).data("id");
 		$.ajax({
 			url:'/list/delete',
 			type:'post',
 			data:{
-				name: name
+				id: id
 			},
 			success:function(data){
 				alert(data.msg);

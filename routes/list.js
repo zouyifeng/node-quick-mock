@@ -4,32 +4,33 @@ var path = require('path');
 var router = express.Router();
 var util = require('../common/utils');
 
+var project = require('../models/projects')
+var api = require('../models/apis')
+
 //接口首页
 router.get('/list', (req, res) => {
-	util.getProjectList()
-		.then((response) => {
-			response = JSON.parse(response);
-			if (response.dataList) {
-				res.render('project_list', {
-					haveList: true,
-					dataList: response.dataList,
-					page: 'list'
-				})
-			} else {
-				res.render('project_list', {
-					haveList: false,
-					dataList: [],
-					page: 'list'
-				})
-			}
-		})
-		.catch((response) => {
+	project.selectAllProject().then(list => {
+		if (list.length > 0) {
+			res.render('project_list', {
+				haveList: true,
+				dataList: list,
+				page: 'list'
+			})
+		} else {
 			res.render('project_list', {
 				haveList: false,
 				dataList: [],
 				page: 'list'
 			})
+		}
+	})
+	.catch((response) => {
+		res.render('project_list', {
+			haveList: false,
+			dataList: [],
+			page: 'list'
 		})
+	})
 })
 
 router.post('/list/create', (req, res) => {
@@ -38,51 +39,16 @@ router.post('/list/create', (req, res) => {
 	var url = req.body.url;
 	var desc = req.body.desc;
 
-	util.mkdirSync('./json/' + name)
-
-	util.getProjectList()
-		.then(function (response) {
-			var temp = JSON.parse(response);
-			var list = temp.dataList;
-			for(var i = 0; i< list.length; i++){
-				if(name == list[i].name) {
-					res.status(500).json({msg: '项目重复！'}).end();
-					return ;
-				}
-			}
-			temp.dataList.push({
-				name: name,
-				url: url,
-				desc: desc
-			});
-			res.status(200).json({msg: '创建成功！'}).end();			
-			util.writeProjectList(JSON.stringify(temp))
-		})
-		// res.redirect('/list')
+	project.addProject(req.body).then(function () {
+		res.status(200).json({msg: '创建成功！'}).end()
+	})
 })
 
 router.post('/list/delete', (req, res) => {
-	var name = req.body.name;
-	// readPromise(PROJECT_LIST)
-	util.getProjectList()
-		.then(function(response){
-			var temp = JSON.parse(response);
-			temp.dataList = temp.dataList.filter(function(item){
-				return item.name != name;
-			});
-			util.writeProjectList(JSON.stringify(temp));
-			util.deleteFolder('./json/' + name);
-		});
+	var id = req.body.id;
 
-	// readPromise(PROJECT_DETAIL)
-	util.getProjectDetail()
-		.then(function(response){
-			var temp = JSON.parse(response);
-			temp.dataList = temp.dataList.filter(function(item){
-				return item.project != name;
-			});
-			util.writeProjectDetail(JSON.stringify(temp));
-		});
+	api.deleteProjectApis(id)
+	project.deleteProject(id)
 
 	res.json({
 		code: 2000,
