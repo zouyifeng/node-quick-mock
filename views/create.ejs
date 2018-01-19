@@ -1,29 +1,32 @@
 <div class="col-md-12">
 	<h3>新增接口</h3>
-	<input id="project" type="hidden" value="<%= project %>">
-		<div class="input-group input-group-lg mb-15">
-			<span class="input-group-addon">接口名称</span>
+	<input id="projectName" type="hidden" value="<%= projectName %>">
+	<input id="projectId" type="hidden" value="<%= projectId %>">
+	<div class="input-group input-group-lg mb-15">
+		<span class="input-group-addon">接口名称</span>
 			<% if(isEdit) { %>
-				<input type="text" id="apiname" class="form-control" value="<%= stringValueJson.name %>">
+				<input type="text" id="apiname" class="form-control" value="<%= api.name %>">
 			<% } else { %>
-				<input type="text" id="apiname" class="form-control" value="<%= project %>/">
+				<input type="text" id="apiname" class="form-control" value="<%= projectName %> -">
 			<% } %>
-		</div>
-		<div class="input-group input-group-lg mb-15">
-			<span class="input-group-addon">接口URL</span>
+	</div>
+	<div class="input-group input-group-lg mb-15">
+		<span class="input-group-addon">接口URL</span>
 			<% if(isEdit) { %>
-				<input type="text" id="apiurl" class="form-control" value="<%=stringValueJson.url%>">
+				<input type="text" id="apiurl" class="form-control" value="<%= api.url %>">
 			<% } else { %>
-				<input type="text" id="apiurl" class="form-control" value="<%= project %>/">
+				<input type="text" id="apiurl" class="form-control" value="<%= projectUrl %>/">
 			<% } %>
-		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-6">
 			<div class="y Q">
 				<div class="C A">JSON字符串</div>
 			</div>
 			<% if(isEdit) { %>
-				<textarea class="edit-area J x P" id="jsonText"><%=stringValueJson.detail%></textarea>
+				<textarea class="edit-area J x P" id="jsonText">
+					<%= api.content %>
+				</textarea>
 			<% } else { %>
 				<textarea class="edit-area J x P" id="jsonText"></textarea>
 			<% } %>
@@ -57,7 +60,9 @@
 	<h3 class="apiInfo">备注信息</h3>
 	<div class="mb-15">
 		<% if(isEdit) { %>
-			<textarea id="api-introduce" class="col-md-12 edit-remark"><%=stringValueJson.apiInfo%></textarea>
+			<textarea id="api-introduce" class="col-md-12 edit-remark">
+				<%= api.desc%>
+			</textarea>
 		<% } else { %>
 			<textarea id="api-introduce" class="col-md-12 edit-remark" placeholder="填写接口备注信息"></textarea>
 		<% } %>
@@ -83,14 +88,15 @@
 		}
 		return true;
 	}
-	
+
 	$("#ok-btn").click(function () {
 		var stringValue = $("#jsonText").val(),
 			apiname = $("#apiname").val(),
-			project = $("#project").val(),
+			projectName = $("#projectName").val(),
+			projectId = $('#projectId').val(),
 			apiurl = $("#apiurl").val();
 
-		if(!checkJSON()){
+		if (!checkJSON()) {
 			return false;
 		}
 
@@ -100,14 +106,10 @@
 			data: {
 				'name': apiname,
 				'url': apiurl,
-				'project': project,
-				'data': JSON.stringify({
-					name: apiname,
-					url: apiurl,
-					project: project,
-					apiInfo: $("#api-introduce").val(),
-					detail: stringValue
-				})
+				'projectName': projectName,
+				'projectId': projectId,
+				"desc": $("#api-introduce").val(),
+				'content': stringValue
 			},
 			success: function () {
 				alert('保存成功')

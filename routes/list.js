@@ -60,9 +60,6 @@ router.get('/list/download/:projectName', (req, res) => {
 	var projectName = req.params.projectName;
 	var pathName = path.resolve(__dirname, '../json/');
 
-	console.log(projectName)
-	console.log(pathName)
-
 	var options = {
 		root: pathName,
 	}

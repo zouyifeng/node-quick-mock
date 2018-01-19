@@ -9,8 +9,7 @@ const Apis = db.define('apis', {
   },
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   desc: {
     type: Sequelize.STRING
@@ -20,7 +19,7 @@ const Apis = db.define('apis', {
     allowNull: false
   },
   project_id: {
-    type: Sequelize.STRING,
+    type: Sequelize.UUID,
     allowNull: false
   },
   url: {
@@ -31,11 +30,20 @@ const Apis = db.define('apis', {
 
 function addApi(api) {
   return Apis.create({
-    name: api.name,
-    desc: api.desc,
-    content: api.content,
-    project_id: api.projectId,  
-    url: api.url
+      name: api.name,
+      desc: api.desc,
+      content: api.content,
+      project_id: api.projectId,  
+      url: api.url
+    })
+}
+
+function selectOneApi(id) {
+  return  Apis.findOne({
+    where: {
+      id: id
+    },
+    raw: true
   })
 }
 
@@ -45,6 +53,13 @@ function selectAllApi(id) {
       project_id: id
     }, 
     raw: true 
+  })
+}
+
+function selectApiByCondiction (condiction) {
+  return Apis.findAll({
+    where: condiction,
+    raw: true
   })
 }
 
@@ -63,5 +78,7 @@ function deleteProjectApis (projectId) {
 module.exports = {
   addApi,
   selectAllApi,
-  deleteApi
+  selectOneApi,
+  deleteApi,
+  selectApiByCondiction 
 }

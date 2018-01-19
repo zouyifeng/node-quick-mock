@@ -31,7 +31,6 @@ function addProject(project) {
 }
 
 function selectOneProject (id) {
-  console.log(id)
   return Projects.findOne({
     where: { id: id },
     raw: true
