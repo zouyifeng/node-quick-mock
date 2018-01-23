@@ -75,10 +75,16 @@ function deleteProjectApis (projectId) {
   })
 }
 
+function updateApi (content, condition) {
+  return Apis.update(content, condition)
+}
+
 module.exports = {
   addApi,
   selectAllApi,
   selectOneApi,
   deleteApi,
+  updateApi,
+  deleteProjectApis,
   selectApiByCondiction 
 }

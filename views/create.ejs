@@ -2,6 +2,7 @@
 	<h3>新增接口</h3>
 	<input id="projectName" type="hidden" value="<%= projectName %>">
 	<input id="projectId" type="hidden" value="<%= projectId %>">
+	<input id="apiId" type="hidden" value="<%= api.id %>">
 	<div class="input-group input-group-lg mb-15">
 		<span class="input-group-addon">接口名称</span>
 			<% if(isEdit) { %>
@@ -94,11 +95,14 @@
 			apiname = $("#apiname").val(),
 			projectName = $("#projectName").val(),
 			projectId = $('#projectId').val(),
-			apiurl = $("#apiurl").val();
+			apiurl = $("#apiurl").val(),
+			apiId = $("#apiId").val();
 
 		if (!checkJSON()) {
 			return false;
 		}
+
+		console.log('...........save...........')
 
 		$.ajax({
 			url: '/detail/save',
@@ -108,8 +112,9 @@
 				'url': apiurl,
 				'projectName': projectName,
 				'projectId': projectId,
-				"desc": $("#api-introduce").val(),
-				'content': stringValue
+				"desc": $("#api-introduce").val().trim(),
+				'content': stringValue.trim(),
+				'apiId': apiId
 			},
 			success: function () {
 				alert('保存成功')

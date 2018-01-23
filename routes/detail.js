@@ -26,27 +26,40 @@ router.get('/detail/:projectId', (req, res) => {
 
 //存储json
 router.post('/detail/save', (req, res) => {
-    var name = req.body.name.replace(/\s/g, ""),
-        url = req.body.url.replace(/\s/g, ""),
-        projectId = req.body.projectId.replace(/\s/g, ""),
+    var name = req.body.name.replace(/\s/g, ''),
+        url = req.body.url.replace(/\s/g, ''),
+        projectId = req.body.projectId.replace(/\s/g, ''),
         projectName = req.body.projectName,
+        apiId = req.body.apiId,
         desc = req.body.desc,
         content = req.body.content
 
     if (url && content) {
-        api.addApi({
-            name: name,
-            desc: desc,
-            content: content,
-            projectId: projectId,  
-            url: url
-        }).then(function() {
-            res.json({
-                success: true,
-                message: "保存成功"
+        if (!apiId) {
+            api.addApi({
+                name: name,
+                desc: desc,
+                content: content,
+                projectId: projectId,  
+                url: url
+            }).then(function() {
+                res.json({
+                    success: true,
+                    message: "保存成功"
+                })
             })
-        })
-        
+        } else {
+            api.updateApi({
+                name: name,
+                desc: desc,
+                content: content,
+                url: url
+            },{
+                where: {
+                    id: apiId
+                }
+            })
+        }
     } else {
         res.json({
             success: false,
@@ -65,13 +78,9 @@ router.get('/detail/edit/:apiId', (req, res) => {
     } else {
         api.selectOneApi(apiId)
             .then(api => {
-                console.log(api)
-                console.log(JSON.parse(api.content))
-                console.log(api.name)
-                var projectId = api.project_Id
-                var projectName = ''            
                 project.selectOneProject(api.project_id).then(project => {
-                    projectName = project.name
+                    var projectName = project.name
+                    var projectId = project.id
                     res.render('create', {
                         isEdit: true,
                         api: api,
@@ -133,7 +142,7 @@ router.all('/api/:apiId', (req, res) => {
     var id = req.params.apiId
 
     api.selectOneApi(id).then(api => {
-        res.json(JSON.parse(JSON.parse(api.content).detail))
+        res.json(JSON.parse(api.content))
     }, () => {
         res.status(404)
     })
