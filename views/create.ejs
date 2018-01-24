@@ -2,7 +2,9 @@
 	<h3>新增接口</h3>
 	<input id="projectName" type="hidden" value="<%= projectName %>">
 	<input id="projectId" type="hidden" value="<%= projectId %>">
-	<input id="apiId" type="hidden" value="<%= api.id %>">
+	<% if(isEdit) { %>
+		<input id="apiId" type="hidden" value="<%= api.id %>">
+	<% } %>
 	<div class="input-group input-group-lg mb-15">
 		<span class="input-group-addon">接口名称</span>
 			<% if(isEdit) { %>
@@ -26,7 +28,7 @@
 			</div>
 			<% if(isEdit) { %>
 				<textarea class="edit-area J x P" id="jsonText">
-					<%= api.content %>
+					<%= api.content.trim() %>
 				</textarea>
 			<% } else { %>
 				<textarea class="edit-area J x P" id="jsonText"></textarea>
@@ -62,7 +64,7 @@
 	<div class="mb-15">
 		<% if(isEdit) { %>
 			<textarea id="api-introduce" class="col-md-12 edit-remark">
-				<%= api.desc%>
+				<%= api.desc.trim() %>
 			</textarea>
 		<% } else { %>
 			<textarea id="api-introduce" class="col-md-12 edit-remark" placeholder="填写接口备注信息"></textarea>
@@ -101,8 +103,6 @@
 		if (!checkJSON()) {
 			return false;
 		}
-
-		console.log('...........save...........')
 
 		$.ajax({
 			url: '/detail/save',

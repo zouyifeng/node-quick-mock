@@ -118,7 +118,7 @@ router.get('/create/:projectId', (req, res) => {
             isEdit: false,
             projectName: project.name,
             projectId: project.id,
-            projectUrl: project.url
+            projectUrl: project.url,
         })
     })
 })

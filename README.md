@@ -1,5 +1,5 @@
 # QuickMock
-基于Express的快速mock平台，无需配置数据库，启动后即可实现本地mock接口数据。通过接口url,返回对应接口json数据。
+基于Express的快速mock平台，sqlite数据库，启动后即可实现本地mock接口数据。通过接口url,返回对应接口json数据。
 
 感兴趣的话，可以给个Star支持下，[项目地址](https://github.com/zouyifeng/QuickMock)~
 
