@@ -6,7 +6,7 @@ const path = require('path')
 const db = new Sequelize('app', 'app', 'app', {
   dialect: 'sqlite',
   sync: { force: true },
-  storage: path.resolve(__dirname, './', 'db/app.sqlite')
+  storage: path.resolve(__dirname, './', 'mock_db/app.sqlite')
 })
 
 
