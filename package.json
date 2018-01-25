@@ -13,6 +13,7 @@
     "ejs": ">= 0.0.1",
     "express-partials": "*"
   },
+  "license": "MIT",
   "devDependencies": {
     "body-parser": "^1.17.2",
     "sequelize": "^4.31.0",
