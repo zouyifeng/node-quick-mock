@@ -84,3 +84,8 @@ You can see which interfaces are in the project. If there are too many interface
 Use postman, verify Mock Server can return the data true and effective
 
 ![postman验证接口有效](http://img.zouyifeng.cn/qm5.png)
+
+## License
+MIT License
+
+
