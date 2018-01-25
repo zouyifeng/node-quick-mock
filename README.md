@@ -1,4 +1,16 @@
 # node-quick-mock
+[![NPM version][npm-image]][npm-url]
+[![node version][node-image]][node-url]
+[![npm download][download-image]][download-url]
+[![npm license][license-image]][download-url]
+
+[npm-image]: https://img.shields.io/npm/v/node-quick-mock.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/node-quick-mock
+[node-image]: https://img.shields.io/badge/node.js-%3E=_8.7.0-green.svg?style=flat-square
+[node-url]: http://nodejs.org/download/
+[download-image]: https://img.shields.io/npm/dm/node-quick-mock.svg?style=flat-square
+[download-url]: https://npmjs.org/package/node-quick-mock
+[license-image]: https://img.shields.io/npm/l/node-quick-mock.svg
 `node-quick-mock` is a web tool that allows web application developers to rapidly generate API mock data and run API services to enable front-end developers in writing and testing their front-end code, which is based on `Express` and `sqlite`
 
 基于Express的快速mock平台，sqlite数据库，启动后即可实现本地mock接口数据。通过接口url,返回对应接口json数据。通过[npm包](https://www.npmjs.com/package/node-quick-mock)在作为项目依赖，方便多成员协作。
