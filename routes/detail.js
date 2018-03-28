@@ -148,4 +148,14 @@ router.all('/api/:apiId', (req, res) => {
     })
 })
 
+router.get('*', (req, res) => {
+    if (req.url) {
+        api.findOneApiByUrl(req.url).then(data => {
+            if (data) {
+                res.json(JSON.parse(data.content))
+            }
+        })
+    }
+})
+
 module.exports = router;

@@ -47,6 +47,15 @@ function selectOneApi(id) {
   })
 }
 
+function findOneApiByUrl (name) {
+  return Apis.findOne({
+    where: {
+      url: name
+    },
+    raw: true
+  })
+}
+
 function selectAllApi(id) {
   return Apis.findAll({
     where: {
@@ -86,5 +95,6 @@ module.exports = {
   deleteApi,
   updateApi,
   deleteProjectApis,
-  selectApiByCondiction 
+  selectApiByCondiction,
+  findOneApiByUrl
 }
