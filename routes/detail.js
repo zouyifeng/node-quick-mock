@@ -131,6 +131,7 @@ router.post('/detail/search', (req, res) => {
         url: {
             $like: '%' + url + '%'
         },
+        state: 1,
         project_id: projectId
     }).then(list => {
         res.json(list)

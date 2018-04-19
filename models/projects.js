@@ -19,6 +19,10 @@ const Projects = db.define('projects', {
   url: {
     type: Sequelize.STRING,
     allowNull: false    
+  },
+  state: {
+    type: Sequelize.INTEGER,
+    allowNull:false
   }
 })
 

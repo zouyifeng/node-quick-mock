@@ -25,6 +25,10 @@ const Apis = db.define('apis', {
   url: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  state: {
+    type: Sequelize.INTEGER,
+    allowNull:false
   }
 })
 
@@ -59,7 +63,8 @@ function findOneApiByUrl (name) {
 function selectAllApi(id) {
   return Apis.findAll({
     where: {
-      project_id: id
+      project_id: id,
+      state: 1
     }, 
     raw: true 
   })
@@ -73,15 +78,25 @@ function selectApiByCondiction (condiction) {
 }
 
 function deleteApi(id) {
-  return Apis.destroy({
+  return Apis.update({
+    state: 0
+  }, {
     where: { id: id }
   })
+  // return Apis.destroy({
+  //   where: { id: id }
+  // })
 }
 
 function deleteProjectApis (projectId) {
-  return Apis.destroy({
+  return Apis.update({
+    state: 0
+  }, {
     where: { project_id: projectId }
   })
+  // return Apis.destroy({
+  //   where: { project_id: projectId }
+  // })
 }
 
 function updateApi (content, condition) {
