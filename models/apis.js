@@ -38,14 +38,16 @@ function addApi(api) {
       desc: api.desc,
       content: api.content,
       project_id: api.projectId,  
-      url: api.url
+      url: api.url,
+      state: 1
     })
 }
 
 function selectOneApi(id) {
   return  Apis.findOne({
     where: {
-      id: id
+      id: id,
+      state: 1
     },
     raw: true
   })
@@ -54,7 +56,8 @@ function selectOneApi(id) {
 function findOneApiByUrl (name) {
   return Apis.findOne({
     where: {
-      url: name
+      url: name,
+      state: 1
     },
     raw: true
   })
