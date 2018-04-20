@@ -22,7 +22,7 @@ const Projects = db.define('projects', {
   },
   state: {
     type: Sequelize.INTEGER,
-    allowNull:false
+    allowNull: true
   }
 })
 

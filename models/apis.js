@@ -28,7 +28,7 @@ const Apis = db.define('apis', {
   },
   state: {
     type: Sequelize.INTEGER,
-    allowNull:false
+    allowNull: true
   }
 })
 
