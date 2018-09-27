@@ -58,6 +58,11 @@ router.post('/detail/save', (req, res) => {
                 where: {
                     id: apiId
                 }
+            }).then(function() {
+                res.json({
+                    success: true,
+                    message: "更新成功"
+                })
             })
         }
     } else {
@@ -101,7 +106,8 @@ router.post("/detail/delete", (req, res) => {
 
     del.then((response) => {
         res.json({
-           msg : '删除成功！'
+            code: 0,
+            msg : '删除成功！'
         })
     }).catch((e) => {
         res.status(500).json({

@@ -10,7 +10,7 @@
 			<% if(isEdit) { %>
 				<input type="text" id="apiname" class="form-control" value="<%= api.name %>">
 			<% } else { %>
-				<input type="text" id="apiname" class="form-control" value="<%= projectName %> -">
+				<input type="text" id="apiname" class="form-control" value="<%= projectName %>-">
 			<% } %>
 	</div>
 	<div class="input-group input-group-lg mb-15">
@@ -100,6 +100,7 @@
 			apiurl = $("#apiurl").val(),
 			apiId = $("#apiId").val();
 
+		console.log(!checkJSON())
 		if (!checkJSON()) {
 			return false;
 		}
@@ -120,11 +121,13 @@
 				alert('保存成功')
 				history.go(-1)
 				location.reload()
+				// window.history.back();
 			},
 			error: function () {
 				alert("保存失败，请重试！")
 				history.go(-1)
-				location.reload()
+				// location.reload()
+				// window.history.back();
 			}
 		})
 	})
