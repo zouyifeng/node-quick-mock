@@ -40,6 +40,9 @@ router.post('/list/create', (req, res) => {
 	var desc = req.body.desc;
 
 	project.addProject(req.body).then(function () {
+		res.header("access-control-allow-credentials", true);
+		res.header("Access-Control-Allow-Origin", "http://localhost:8888");
+		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		res.status(200).json({msg: '创建成功！'}).end()
 	})
 })
@@ -49,6 +52,10 @@ router.post('/list/delete', (req, res) => {
 
 	api.deleteProjectApis(id)
 	project.deleteProject(id)
+
+	res.header("access-control-allow-credentials", true);
+	res.header("Access-Control-Allow-Origin", "http://localhost:8888");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 	res.json({
 		code: 2000,
