@@ -8,7 +8,8 @@ var express = require('express')
   , path = require('path')
   , app = express()
   , fs = require('fs')
-  , path = require('path');
+  , path = require('path')
+  , cors = require('cors');
 
 try {
   fs.accessSync(`${process.cwd()}/mock_db/app.sqlite`, fs.F_OK)
@@ -33,17 +34,8 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(partials());
+app.use(cors());
 // app.use(express.Router(routes)); //自动解析url
-
-app.all('*', function (req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-  res.header("X-Powered-By",' 3.2.1')
-  res.header("Content-Type", "application/json;charset=utf-8");
-  next();
-})
 
 routes(app);
 
