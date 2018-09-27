@@ -35,6 +35,16 @@ app.set('view engine', 'ejs');
 app.use(partials());
 // app.use(express.Router(routes)); //自动解析url
 
+app.all('*', function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", "http://localhost:8888");
+  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.header("X-Powered-By",' 3.2.1')
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+})
+
 routes(app);
 
 module.exports = app;
