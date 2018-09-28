@@ -52,7 +52,7 @@ npm start
 Enter the project name, the project url (which can be understood as a specific string that distinguishes between different projects), the project description.
 
 
-![新增项目](http://img.zouyifeng.cn/qm2.png)
+![新增项目](7xo8y0.com1.z0.glb.clouddn.com/qm2.png)
 
 
 ### project list
@@ -61,7 +61,7 @@ Enter the project name, the project url (which can be understood as a specific s
 Project panel, showing all existing projects.
 
 
-![项目列表](http://img.zouyifeng.cn/qm1.png)
+![项目列表](7xo8y0.com1.z0.glb.clouddn.com/qm1.png)
 
 
 ### add API mock data
@@ -70,7 +70,7 @@ Project panel, showing all existing projects.
 After you select a project, you can view the interface information under the project and add an interface for the project.
 
 
-![项目添加接口](http://img.zouyifeng.cn/qm3.png)
+![项目添加接口](7xo8y0.com1.z0.glb.clouddn.com/qm3.png)
 
 
 ### edit mock data
@@ -78,7 +78,7 @@ After you select a project, you can view the interface information under the pro
 
 Enter the name of the interface and the interface URL, the corresponding json data input on the left, while the right preview json data format is legal, fill in the bottom of this interface notes.
 
-![编辑接口](http://img.zouyifeng.cn/qm4.png)
+![编辑接口](7xo8y0.com1.z0.glb.clouddn.com/qm4.png)
 
 
 ### API list
@@ -87,7 +87,7 @@ Enter the name of the interface and the interface URL, the corresponding json da
 You can see which interfaces are in the project. If there are too many interfaces, support fuzzy queries for interfaces.
 
 
-![接口列表](http://img.zouyifeng.cn/qm3.png)
+![接口列表](7xo8y0.com1.z0.glb.clouddn.com/qm3.png)
 
 
 ### postman verify it works
@@ -95,7 +95,7 @@ You can see which interfaces are in the project. If there are too many interface
 
 Use postman, verify Mock Server can return the data true and effective
 
-![postman验证接口有效](http://img.zouyifeng.cn/qm5.png)
+![postman验证接口有效](7xo8y0.com1.z0.glb.clouddn.com/qm5.png)
 
 # License
 MIT License
