@@ -43,9 +43,6 @@ router.post('/detail/save', (req, res) => {
                 projectId: projectId,  
                 url: url
             }).then(function() {
-                res.header("access-control-allow-credentials", true);
-                res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.json({
                     success: true,
                     message: "保存成功"
@@ -62,9 +59,6 @@ router.post('/detail/save', (req, res) => {
                     id: apiId
                 }
             }).then(function() {
-                res.header("access-control-allow-credentials", true);
-                res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.json({
                     success: true,
                     message: "更新成功"
@@ -72,9 +66,6 @@ router.post('/detail/save', (req, res) => {
             })
         }
     } else {
-        res.header("access-control-allow-credentials", true);
-        res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json({
             success: false,
             message: "名称或url不能为空"
@@ -114,17 +105,11 @@ router.post("/detail/delete", (req, res) => {
 
 
     del.then((response) => {
-        res.header("access-control-allow-credentials", true);
-        res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json({
             code: 0,
             msg : '删除成功！'
         })
     }).catch((e) => {
-        res.header("access-control-allow-credentials", true);
-        res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(500).json({
             msg: '删除出错！'
         })
@@ -155,9 +140,6 @@ router.post('/detail/search', (req, res) => {
         state: 1,
         project_id: projectId
     }).then(list => {
-        res.header("access-control-allow-credentials", true);
-        res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(list)
     })
 })
@@ -167,9 +149,6 @@ router.all('/api/:apiId', (req, res) => {
     var id = req.params.apiId
 
     api.selectOneApi(id).then(api => {
-        res.header("access-control-allow-credentials", true);
-        res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(JSON.parse(api.content))
     }, () => {
         res.status(404)
@@ -180,9 +159,6 @@ router.get('*', (req, res) => {
     if (req.url) {
         api.findOneApiByUrl(req.url).then(data => {
             if (data) {
-                res.header("access-control-allow-credentials", true);
-                res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.json(JSON.parse(data.content))
             }
         })
