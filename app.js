@@ -32,7 +32,7 @@ app.use(bodyParser.json())
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header("Access-Control-Allow-Origin", "http://localhost:8888");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, access-control-allow-origin");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin");
   next();
 });
 
