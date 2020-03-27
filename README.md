@@ -38,40 +38,40 @@ npm start
 ### add new project
 输入项目名称，项目url（可以理解为，对于区分不同项目的特定字符串），项目描述。
 
-![新增项目](http://img.zouyifeng.xyz/qm2.png)
+![新增项目](https://img-1253403808.cos.ap-chengdu.myqcloud.com/github/node-quick-mock-project-add.png)
 
 
 ### project list
 项目面板，展示已存在的所有项目。
 
 
-![项目列表](http://img.zouyifeng.xyz/qm1.png)
+![项目列表](https://img-1253403808.cos.ap-chengdu.myqcloud.com/github/project-list.png)
 
 
 ### add API mock data
 选择一个项目后，可以查看该项目下的接口信息和为该项目添加接口。
 
-![项目添加接口](http://img.zouyifeng.xyz/qm3.png)
+![项目添加接口](https://img-1253403808.cos.ap-chengdu.myqcloud.com/github/node-quick-mock-project-deatil.png)
 
 
 ### edit mock data
 输入接口名称和接口URL，将相对应json数据输入左侧，同时右侧预览json数据格式是否合法，下方填入此接口的备注说明。
 
-![编辑接口](http://img.zouyifeng.xyz/qm4.png)
+![编辑接口](https://img-1253403808.cos.ap-chengdu.myqcloud.com/github/屏幕快照%202020-03-27%2016.55.33.png)
 
 
 ### API list
 可以查看项目中有哪些接口，如果接口过多，支持接口的模糊查询。
 
 
-![接口列表](http://img.zouyifeng.xyz/qm3.png)
+![接口列表](https://img-1253403808.cos.ap-chengdu.myqcloud.com/github/屏幕快照%202020-03-27%2016.56.20.png)
 
 
 ### postman verify it works
 利用postman，验证Mock Server可以将数据真实有效的返回
 
 
-![postman验证接口有效](http://img.zouyifeng.xyz/qm5.png)
+![postman验证接口有效](https://img-1253403808.cos.ap-chengdu.myqcloud.com/github/屏幕快照%202020-03-27%2016.58.33.png)
 
 # License
 MIT License
