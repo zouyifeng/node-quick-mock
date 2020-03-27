@@ -17,7 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "body-parser": "^1.17.2",
-    "sequelize": "^4.31.0",
+    "sequelize": "^5.15.1",
     "sqlite3": "^3.1.13"
   }
 }
