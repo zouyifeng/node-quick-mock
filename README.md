@@ -15,6 +15,9 @@
 基于Express的快速mock平台，sqlite数据库，启动后即可实现本地mock接口数据。通过接口url,返回对应接口json数据。通过[npm包](https://www.npmjs.com/package/node-quick-mock)在作为项目依赖，方便多成员协作。
 
 
+[掘金文章：QuickMock：基于Express的快速mock平台](https://juejin.cn/post/6844903550074486797)
+
+
 # start
 
 ``` bash
